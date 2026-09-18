@@ -12,9 +12,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import net.minecraft.world.entity.projectile.arrow.ThrownTrident;
+import org.spongepowered.asm.mixin.injection.Redirect;
+
 @Mixin(AbstractArrow.class)
 public abstract class AbstractArrowMixin {
 
+	@Shadow public abstract boolean isCritArrow();
+	@Shadow public abstract void setCritArrow(boolean crit);
 	@Shadow protected abstract boolean isInGround();
 
 	@Inject(method = "tick", at = @At("TAIL"))
@@ -35,6 +40,17 @@ public abstract class AbstractArrowMixin {
 
 		if (!self.entityTags().contains("grimdepth:has_armor_piercer")) {
 			return;
+		}
+
+		boolean isTrident = (Object) this instanceof ThrownTrident;
+		if (!isTrident) {
+			if (this.isCritArrow()) {
+				self.addTag("grimdepth:was_crit");
+				this.setCritArrow(false);
+			}
+			if (!self.entityTags().contains("grimdepth:was_crit")) {
+				return;
+			}
 		}
 
 		if (!GrimdepthConfig.INSTANCE.armorPiercer.projectileTrailParticles) {
@@ -63,5 +79,10 @@ public abstract class AbstractArrowMixin {
 				}
 			}
 		}
+	}
+
+	@Redirect(method = "onHitEntity", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/projectile/arrow/AbstractArrow;isCritArrow()Z"))
+	private boolean grimdepth$preserveArmorPiercerCritDamage(AbstractArrow arrow) {
+		return arrow.isCritArrow() || arrow.entityTags().contains("grimdepth:was_crit");
 	}
 }

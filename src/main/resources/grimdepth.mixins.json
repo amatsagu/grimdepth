@@ -6,8 +6,8 @@
     "AbstractArrowMixin",
     "CombatRulesMixin",
     "CreeperMixin",
-    "LivingEntityMixin",
     "MobMixin",
+    "PlayerMixin",
     "SkeletonSpawnMixin",
     "SpiderSpawnMixin",
     "ZombieMixin"
