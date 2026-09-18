@@ -4,14 +4,17 @@
   "compatibilityLevel": "JAVA_25",
   "mixins": [
     "AbstractArrowMixin",
+    "BlockItemMixin",
     "CombatRulesMixin",
     "CreeperMixin",
+    "LivingEntityMixin",
     "MobMixin",
     "PlayerMixin",
     "ProjectileWeaponItemMixin",
     "SkeletonSpawnMixin",
     "SpiderSpawnMixin",
     "SwellGoalMixin",
+    "TargetGoalMixin",
     "TridentItemMixin",
     "ZombieMixin"
   ],

@@ -60,6 +60,17 @@
     - **200% Absolute Maximum Cap**: Brightness is strictly clamped to a maximum of 200% (`2.0`), preventing runaway values from custom potion amplifiers or commands.
     - **Config Anti-Cheat (Singleplayer & Multiplayer)**: On joining any world (singleplayer or multiplayer), the client inspects `options.gamma`. If artificially boosted in game configs (`options.txt` > 100%), it is immediately restored to default 75% (`0.75`).
 
+- **Nightmare Awareness Status Effect**:
+  * **New Harmful Mob Effect**: Signalized with ill omen / raid omen red skulls (`RAID_OMEN` particles and sound).
+  * **Sensory Aggro Scaling**: Increases hostile monsters' detection and follow distance by **+25% per level** (up to **+250%** maximum at Level 10).
+  * **Depth Ore Mining Triggers**: Triggered when mining naturally generated deepslate ore variants deep underground ($Y \le 0$).
+  * **Anti-Exploit Natural Ore Tracking**: Tracks player-placed ores across world saves so player-placed blocks never grant the effect.
+  * **Dynamic Risk Chances**:
+    - Default deepslate ore break chance: **10%**.
+    - In darkness (block light $\le 0$, monster spawn condition): increases to **35%**.
+    - High-risk ores (Deepslate Diamond & Emerald Ores): **75%** chance.
+  * **Stacking & Timer Reset**: Each trigger sets or refreshes the remaining duration to **30 seconds** (600 ticks). Receiving the effect again while active refreshes duration and increments the effect level by 1 (capped at Level 10).
+
 ---
 
 ## Configuration
@@ -154,6 +165,22 @@ All features, spawn chances, depth thresholds, equipment pools, and recoil setti
     "maxBrightnessCap": 2.0,
     "antiCheatMaxGamma": 1.0,
     "antiCheatResetGamma": 0.75
+  },
+  "nightmareAwareness": {
+    "enabled": true,
+    "maxTriggerYLevel": 0,
+    "defaultOreChance": 0.10,
+    "darkOreChance": 0.35,
+    "highRiskOreChance": 0.75,
+    "highRiskOres": [
+      "minecraft:deepslate_diamond_ore",
+      "minecraft:deepslate_emerald_ore"
+    ],
+    "darkLightLevelThreshold": 0,
+    "durationTicks": 600,
+    "aggroRangeBonusPerLevel": 0.25,
+    "maxAggroRangeBonus": 2.50,
+    "maxLevel": 10
   }
 }
 ```

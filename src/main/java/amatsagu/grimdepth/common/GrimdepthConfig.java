@@ -26,6 +26,30 @@ public class GrimdepthConfig {
 	public BatsConfig bats = new BatsConfig();
 	public BackstepConfig backstep = new BackstepConfig();
 	public LightingConfig lighting = new LightingConfig();
+	public NightmareAwarenessConfig nightmareAwareness = new NightmareAwarenessConfig();
+
+	public static class NightmareAwarenessConfig {
+		public boolean enabled = true;
+		public int maxTriggerYLevel = 0;
+		public double defaultOreChance = 0.10;
+		public double darkOreChance = 0.35;
+		public double highRiskOreChance = 0.75;
+		public List<String> highRiskOres = new ArrayList<>(List.of(
+				"minecraft:deepslate_diamond_ore",
+				"minecraft:deepslate_emerald_ore"
+		));
+		public int darkLightLevelThreshold = 0;
+		public int durationTicks = 600;
+		public double aggroRangeBonusPerLevel = 0.25;
+		public double maxAggroRangeBonus = 2.50;
+		public int maxLevel = 10;
+
+		public double getAggroMultiplier(int amplifier) {
+			int level = Math.max(1, amplifier + 1);
+			double bonus = Math.min(this.maxAggroRangeBonus, level * this.aggroRangeBonusPerLevel);
+			return 1.0 + bonus;
+		}
+	}
 
 	public static class LightingConfig {
 		public double defaultGamma = 0.75;
@@ -125,9 +149,16 @@ public class GrimdepthConfig {
 			GrimdepthConfig loaded = GSON.fromJson(reader, GrimdepthConfig.class);
 			if (loaded != null) {
 				INSTANCE = loaded;
-				if (INSTANCE.lighting == null) {
-					INSTANCE.lighting = new LightingConfig();
-				}
+				if (INSTANCE.general == null) INSTANCE.general = new GeneralConfig();
+				if (INSTANCE.armorPiercer == null) INSTANCE.armorPiercer = new ArmorPiercerConfig();
+				if (INSTANCE.skeletons == null) INSTANCE.skeletons = new SkeletonsConfig();
+				if (INSTANCE.zombies == null) INSTANCE.zombies = new ZombiesConfig();
+				if (INSTANCE.creepers == null) INSTANCE.creepers = new CreepersConfig();
+				if (INSTANCE.spiders == null) INSTANCE.spiders = new SpidersConfig();
+				if (INSTANCE.bats == null) INSTANCE.bats = new BatsConfig();
+				if (INSTANCE.backstep == null) INSTANCE.backstep = new BackstepConfig();
+				if (INSTANCE.lighting == null) INSTANCE.lighting = new LightingConfig();
+				if (INSTANCE.nightmareAwareness == null) INSTANCE.nightmareAwareness = new NightmareAwarenessConfig();
 			}
 		} catch (Exception e) {
 			save();

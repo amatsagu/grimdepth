@@ -4,5 +4,6 @@
   "tag.item.grimdepth.enchantable.armor_piercer": "Armor Piercer Enchantable",
   "enchantment.grimdepth.backstep": "Backstep",
   "enchantment.grimdepth.backstep.desc": "Gently recoils the player backward upon firing projectiles and grants a burst of speed.",
-  "tag.item.grimdepth.enchantable.backstep": "Backstep Enchantable"
+  "tag.item.grimdepth.enchantable.backstep": "Backstep Enchantable",
+  "effect.grimdepth.nightmare_awareness": "Nightmare Awareness"
 }
