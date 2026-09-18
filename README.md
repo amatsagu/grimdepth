@@ -40,7 +40,7 @@
     * Enhanced with +10% bonus movement speed, 1.5-block step height, jump boost, and an ambient blue skull aura when players draw near.
 
 - **Underground Creepers**:
-  * **Dynamic Fuse Times**: Underground creepers randomly roll a fuse between standard (30 ticks) and 3× faster (10 ticks) whenever swelling.
+  * **Dynamic Fuse Times**: Underground creepers randomly roll a fuse between standard (30 ticks) and 1.5× faster (20 ticks) whenever swelling.
   * **Light Hunters**: Deep underground creepers search out and detonate near light sources (torches, soul torches, lanterns, soul lanterns, glowstone, lit redstone lamps, lit copper bulbs).
   * Player combat always takes priority over light hunting. When hunting light, creepers navigate to the light source, halt within 3 blocks, and detonate cleanly.
 
@@ -121,7 +121,7 @@ All features, spawn chances, depth thresholds, equipment pools, and recoil setti
     }
   },
   "creepers": {
-    "undergroundMinFuseTicks": 10,
+    "undergroundMinFuseTicks": 20,
     "undergroundMaxFuseTicks": 30,
     "huntLightSources": true,
     "lightSearchHorizontalRange": 12,

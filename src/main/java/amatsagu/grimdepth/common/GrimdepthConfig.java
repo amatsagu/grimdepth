@@ -77,7 +77,7 @@ public class GrimdepthConfig {
 	}
 
 	public static class CreepersConfig {
-		public int undergroundMinFuseTicks = 10;
+		public int undergroundMinFuseTicks = 20;
 		public int undergroundMaxFuseTicks = 30;
 		public boolean huntLightSources = true;
 		public int lightSearchHorizontalRange = 12;
