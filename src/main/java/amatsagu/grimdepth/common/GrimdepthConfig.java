@@ -25,6 +25,16 @@ public class GrimdepthConfig {
 	public SpidersConfig spiders = new SpidersConfig();
 	public BatsConfig bats = new BatsConfig();
 	public BackstepConfig backstep = new BackstepConfig();
+	public LightingConfig lighting = new LightingConfig();
+
+	public static class LightingConfig {
+		public double defaultGamma = 0.75;
+		public double brightnessDarkeningScale = 2.0 / 3.0;
+		public double nightVisionBaseBoost = 0.25;
+		public double nightVisionPerLevelBoost = 0.10;
+		public boolean disableNightVisionFlashingShader = true;
+		public boolean gammaMigratedTo75 = false;
+	}
 
 	public static class GeneralConfig {
 		public int undergroundYLevel = 64;
@@ -112,6 +122,9 @@ public class GrimdepthConfig {
 			GrimdepthConfig loaded = GSON.fromJson(reader, GrimdepthConfig.class);
 			if (loaded != null) {
 				INSTANCE = loaded;
+				if (INSTANCE.lighting == null) {
+					INSTANCE.lighting = new LightingConfig();
+				}
 			}
 		} catch (Exception e) {
 			save();

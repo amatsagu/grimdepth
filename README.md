@@ -48,6 +48,14 @@
   * From Deepslate level ($Y \le 0$), Spiders have a 10% chance to spawn as **Cave Spiders**.
   * From Deepslate level ($Y \le 0$), Bats have a 10% chance to spawn as **Vexes**.
 
+- **Atmospheric Lighting & Night Vision Overhaul**:
+  * **Darker Ambience (33.3% Darker Overall)**: The world lightmap is recalibrated with a $\frac{2}{3}$ scaling factor, lowering maximum brightness and deepening shadows for an atmospheric cave exploration experience.
+  * **New 75% Default Brightness**: Game settings brightness default is set to **75%** (labeled as "Default"), which renders **identically** to standard Vanilla 50% ($0.75 \times \frac{2}{3} = 0.50$).
+  * **Reworked Night Vision Status Effect**:
+    - Replaces the artificial fullbright ambient wash and the end-of-potion flashing shader/fog flicker.
+    - Enhances vision naturally by boosting the player's brightness setting: **+25% at Level 1** and **+10% per level above 1** (Level 2 = +35%, Level 3 = +45%).
+    - Fully compatible with underwater Conduit Power vision.
+
 ---
 
 ## Configuration
@@ -132,6 +140,13 @@ All features, spawn chances, depth thresholds, equipment pools, and recoil setti
   },
   "bats": {
     "deepslateVexChance": 0.10
+  },
+  "lighting": {
+    "defaultGamma": 0.75,
+    "brightnessDarkeningScale": 0.6666666666666666,
+    "nightVisionBaseBoost": 0.25,
+    "nightVisionPerLevelBoost": 0.10,
+    "disableNightVisionFlashingShader": true
   }
 }
 ```

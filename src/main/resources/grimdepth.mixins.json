@@ -15,6 +15,11 @@
     "TridentItemMixin",
     "ZombieMixin"
   ],
+  "client": [
+    "GameRendererMixin",
+    "LightmapRenderStateExtractorMixin",
+    "OptionsMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
