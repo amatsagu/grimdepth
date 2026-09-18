@@ -23,8 +23,8 @@ public abstract class TridentItemMixin {
 			)
 	)
 	private void grimdepth$onTridentThrow(ItemStack stack, Level level, LivingEntity entity, int timeLeft, CallbackInfoReturnable<Boolean> cir) {
-		if (entity instanceof Player player && level instanceof ServerLevel serverLevel) {
-			BackstepHelper.tryTrigger(serverLevel, player, stack);
+		if (level instanceof ServerLevel serverLevel) {
+			BackstepHelper.tryTrigger(serverLevel, entity, stack);
 		}
 	}
 }

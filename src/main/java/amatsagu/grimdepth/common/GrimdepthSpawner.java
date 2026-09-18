@@ -79,13 +79,16 @@ public final class GrimdepthSpawner {
 		var registry = level.registryAccess().lookupOrThrow(Registries.ENCHANTMENT);
 		var powerHolder = registry.get(Enchantments.POWER);
 		var armorPiercerHolder = registry.get(GrimdepthEnchantments.ARMOR_PIERCER);
+		var backstepHolder = registry.get(GrimdepthEnchantments.BACKSTEP);
 
 		int maxLvl = cfg.maxEnchantLevel;
 		if (isDeepslate) {
 			int powerLvl = 1 + random.nextInt(maxLvl);
 			int apLvl = 1 + random.nextInt(maxLvl);
+			int backstepLvl = 1 + random.nextInt(maxLvl);
 			powerHolder.ifPresent(h -> bow.enchant(h, powerLvl));
 			armorPiercerHolder.ifPresent(h -> bow.enchant(h, apLvl));
+			backstepHolder.ifPresent(h -> bow.enchant(h, backstepLvl));
 		} else {
 			boolean pickPower = random.nextBoolean();
 			int lvl = 1 + random.nextInt(Math.max(1, maxLvl - 1));

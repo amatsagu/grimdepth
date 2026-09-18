@@ -25,7 +25,7 @@
   * Skeletons spawning underground scale in danger the deeper you go.
   * Chance to spawn with an enchanted bow begins at 5% near the surface, reaches 25% at Deepslate ($Y \le 0$), and ramps up to 50% near Bedrock.
   * Upper underground skeletons roll either Power or Armor Piercer.
-  * From Deepslate level downward, skeletons can spawn wielding bows with **both** Power and Armor Piercer (up to Level 3).
+  * From Deepslate level downward ($Y \le 0$), skeletons that roll enchanted bows **always** receive **Power**, **Armor Piercer**, and **Backstep** (up to Level 3). Skeletons that do not roll enchants remain unenchanted.
 
 - **Underground Zombies & Vanilla Zombie Leaders**:
   * Zombies follow the same depth-scaled equipment chances as skeletons.

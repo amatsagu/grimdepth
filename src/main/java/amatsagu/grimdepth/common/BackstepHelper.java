@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -18,12 +19,12 @@ import net.minecraft.world.phys.Vec3;
 
 public final class BackstepHelper {
 
-	public static void tryTrigger(ServerLevel level, Player player, ItemStack weapon) {
+	public static void tryTrigger(ServerLevel level, LivingEntity shooter, ItemStack weapon) {
 		GrimdepthConfig.BackstepConfig cfg = GrimdepthConfig.INSTANCE.backstep;
-		if (!cfg.enabled || player == null || weapon == null || weapon.isEmpty()) {
+		if (!cfg.enabled || shooter == null || weapon == null || weapon.isEmpty()) {
 			return;
 		}
-		if (player.isPassenger() || player.isFallFlying()) {
+		if (shooter.isPassenger() || shooter.isFallFlying()) {
 			return;
 		}
 
@@ -33,12 +34,12 @@ public final class BackstepHelper {
 		}
 
 		// Calculate horizontal opposite direction of aim
-		Vec3 look = player.getLookAngle();
+		Vec3 look = shooter.getLookAngle();
 		double lookX = look.x;
 		double lookZ = look.z;
 		double horizDist = Math.sqrt(lookX * lookX + lookZ * lookZ);
 		if (horizDist < 1e-4) {
-			float yawRad = (float) Math.toRadians(player.getYRot());
+			float yawRad = (float) Math.toRadians(shooter.getYRot());
 			lookX = -Math.sin(yawRad);
 			lookZ = Math.cos(yawRad);
 			horizDist = Math.sqrt(lookX * lookX + lookZ * lookZ);
@@ -52,22 +53,22 @@ public final class BackstepHelper {
 		}
 
 		// Check safe floor if enabled
-		if (cfg.requireSafeFloor && !isFloorSafe(level, player, dirX, dirZ, pushBlocks, cfg.maxSafeDropDistance)) {
+		if (cfg.requireSafeFloor && !isFloorSafe(level, shooter, dirX, dirZ, pushBlocks, cfg.maxSafeDropDistance)) {
 			return;
 		}
 
 		// Gentle smooth recoil impulse:
 		// Ground friction decelerates delta movement to ~2.2x the initial velocity.
 		double impulse = pushBlocks * 0.42;
-		double impulseY = player.onGround() ? 0.08 : 0.0;
+		double impulseY = shooter.onGround() ? 0.08 : 0.0;
 
-		player.push(dirX * impulse, impulseY, dirZ * impulse);
-		if (player instanceof ServerPlayer serverPlayer) {
+		shooter.push(dirX * impulse, impulseY, dirZ * impulse);
+		if (shooter instanceof ServerPlayer serverPlayer) {
 			serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(serverPlayer));
 		}
 
 		// Grant 5s of movement speed effect with barely visible (ambient) particles
-		player.addEffect(new MobEffectInstance(
+		shooter.addEffect(new MobEffectInstance(
 				MobEffects.SPEED,
 				cfg.speedDurationTicks,
 				cfg.speedAmplifier,
@@ -79,28 +80,28 @@ public final class BackstepHelper {
 		// Small smoke poof near their feet
 		level.sendParticles(
 				ParticleTypes.POOF,
-				player.getX(),
-				player.getY() + 0.05,
-				player.getZ(),
+				shooter.getX(),
+				shooter.getY() + 0.05,
+				shooter.getZ(),
 				3,
 				0.2, 0.05, 0.2,
 				0.02
 		);
 		level.sendParticles(
 				ParticleTypes.SMOKE,
-				player.getX(),
-				player.getY() + 0.05,
-				player.getZ(),
+				shooter.getX(),
+				shooter.getY() + 0.05,
+				shooter.getZ(),
 				4,
 				0.2, 0.05, 0.2,
 				0.01
 		);
 	}
 
-	private static boolean isFloorSafe(ServerLevel level, Player player, double dirX, double dirZ, double distance, double maxDrop) {
-		double px = player.getX();
-		double py = player.getY();
-		double pz = player.getZ();
+	private static boolean isFloorSafe(ServerLevel level, LivingEntity entity, double dirX, double dirZ, double distance, double maxDrop) {
+		double px = entity.getX();
+		double py = entity.getY();
+		double pz = entity.getZ();
 
 		// Sample halfway and at full distance
 		double[] samples = { distance * 0.5, distance };

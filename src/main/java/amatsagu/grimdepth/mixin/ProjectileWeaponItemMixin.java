@@ -19,8 +19,6 @@ public abstract class ProjectileWeaponItemMixin {
 
 	@Inject(method = "shoot", at = @At("TAIL"))
 	private void grimdepth$onShoot(ServerLevel level, LivingEntity shooter, InteractionHand hand, ItemStack weapon, List<ItemStack> projectiles, float speed, float inaccuracy, boolean isCrit, LivingEntity target, CallbackInfo ci) {
-		if (shooter instanceof Player player) {
-			BackstepHelper.tryTrigger(level, player, weapon);
-		}
+		BackstepHelper.tryTrigger(level, shooter, weapon);
 	}
 }
