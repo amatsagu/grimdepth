@@ -45,17 +45,19 @@ public abstract class AbstractArrowMixin {
 			Vec3 delta = self.getDeltaMovement();
 			double speed = delta.length();
 			if (speed > 0.05) {
-				int steps = Math.max(1, (int) Math.ceil(speed * 3.0));
+				Vec3 currentPos = self.position();
+				Vec3 startPos = currentPos.subtract(delta);
+				int steps = speed > 1.0 ? 2 : 1;
 				for (int i = 0; i < steps; i++) {
-					double factor = (double) i / steps;
-					double px = self.getX() - delta.x * factor;
-					double py = self.getY() + self.getBbHeight() * 0.5 - delta.y * factor;
-					double pz = self.getZ() - delta.z * factor;
+					double t = (i + 0.5) / (double) steps;
+					double px = startPos.x + delta.x * t;
+					double py = startPos.y + delta.y * t;
+					double pz = startPos.z + delta.z * t;
 					serverLevel.sendParticles(
-							ParticleTypes.RAID_OMEN,
+							ParticleTypes.TRIAL_OMEN,
 							px, py, pz,
 							1,
-							0.01, 0.01, 0.01,
+							0.0, 0.0, 0.0,
 							0.0
 					);
 				}

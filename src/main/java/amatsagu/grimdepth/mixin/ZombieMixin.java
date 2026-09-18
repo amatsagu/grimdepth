@@ -27,14 +27,14 @@ public abstract class ZombieMixin {
 	private void grimdepth$tickLeader(CallbackInfo ci) {
 		Zombie self = (Zombie) (Object) this;
 		if (!self.level().isClientSide() && self.entityTags().contains("grimdepth:zombie_leader")) {
-			if ((self.tickCount + self.getId()) % 8 == 0) {
+			if ((self.tickCount + self.getId()) % 12 == 0) {
 				if (self.level() instanceof ServerLevel serverLevel) {
 					double radius = GrimdepthConfig.INSTANCE.zombies.leaders.particleProximityRadius;
 					if (serverLevel.hasNearbyAlivePlayer(self.getX(), self.getY(), self.getZ(), radius)) {
 						serverLevel.sendParticles(
-								ParticleTypes.RAID_OMEN,
+								ParticleTypes.TRIAL_OMEN,
 								self.getRandomX(0.5),
-								self.getRandomY() + 0.2,
+								self.getY() + self.getRandom().nextDouble() * self.getBbHeight() * 0.75,
 								self.getRandomZ(0.5),
 								1,
 								0.0, 0.02, 0.0,

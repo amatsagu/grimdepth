@@ -30,13 +30,14 @@ public abstract class LivingEntityMixin {
 		}
 		int apLevel = GrimdepthEnchantments.getArmorPiercerLevel(level, weapon);
 		if (apLevel > 0 && GrimdepthConfig.INSTANCE.armorPiercer.spawnBlueSkullParticles) {
+			int count = Math.max(1, 1 + apLevel);
 			level.sendParticles(
-					ParticleTypes.RAID_OMEN,
+					ParticleTypes.TRIAL_OMEN,
 					self.getX(),
-					self.getY() + self.getBbHeight() * 0.5,
+					self.getY() + self.getBbHeight() * 0.35,
 					self.getZ(),
-					apLevel * 3,
-					0.25, 0.25, 0.25,
+					count,
+					0.2, 0.15, 0.2,
 					0.02
 			);
 		}
