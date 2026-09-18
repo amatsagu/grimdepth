@@ -10,6 +10,7 @@
     "PlayerMixin",
     "SkeletonSpawnMixin",
     "SpiderSpawnMixin",
+    "SwellGoalMixin",
     "ZombieMixin"
   ],
   "injectors": {

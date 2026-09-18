@@ -52,12 +52,29 @@ public class CreeperDestroyLightGoal extends MoveToBlockGoal {
 	}
 
 	@Override
+	protected BlockPos getMoveToTarget() {
+		return this.blockPos;
+	}
+
+	@Override
+	public double acceptedDistance() {
+		return 2.5;
+	}
+
+	@Override
 	public void tick() {
 		super.tick();
-		if (isReachedTarget() || this.creeper.distanceToSqr(
+		double distSq = this.creeper.distanceToSqr(
 				this.blockPos.getX() + 0.5,
 				this.blockPos.getY() + 0.5,
-				this.blockPos.getZ() + 0.5) <= 4.0) {
+				this.blockPos.getZ() + 0.5);
+		if (isReachedTarget() || distSq <= 9.0) {
+			this.creeper.getNavigation().stop();
+			this.creeper.getLookControl().setLookAt(
+					this.blockPos.getX() + 0.5,
+					this.blockPos.getY() + 0.5,
+					this.blockPos.getZ() + 0.5
+			);
 			this.creeper.setSwellDir(1);
 		}
 	}

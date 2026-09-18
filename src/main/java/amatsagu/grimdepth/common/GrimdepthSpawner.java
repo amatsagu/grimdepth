@@ -143,6 +143,29 @@ public final class GrimdepthSpawner {
 
 	private static void promoteToLeader(Zombie zombie, ServerLevelAccessor level, GrimdepthConfig.LeaderConfig cfg) {
 		zombie.addTag("grimdepth:zombie_leader");
+		zombie.setCanBreakDoors(true);
+
+		RandomSource random = zombie.getRandom();
+		Identifier leaderBonusId = Identifier.withDefaultNamespace("leader_zombie_bonus");
+
+		AttributeInstance reinforcementAttr = zombie.getAttribute(Attributes.SPAWN_REINFORCEMENTS_CHANCE);
+		if (reinforcementAttr != null) {
+			reinforcementAttr.addOrReplacePermanentModifier(new AttributeModifier(
+					leaderBonusId,
+					random.nextDouble() * 0.25 + 0.5,
+					AttributeModifier.Operation.ADD_VALUE
+			));
+		}
+
+		AttributeInstance healthAttr = zombie.getAttribute(Attributes.MAX_HEALTH);
+		if (healthAttr != null) {
+			healthAttr.addOrReplacePermanentModifier(new AttributeModifier(
+					leaderBonusId,
+					random.nextDouble() * 3.0 + 1.0,
+					AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+			));
+			zombie.setHealth(zombie.getMaxHealth());
+		}
 
 		AttributeInstance speedAttr = zombie.getAttribute(Attributes.MOVEMENT_SPEED);
 		if (speedAttr != null) {
@@ -165,7 +188,6 @@ public final class GrimdepthSpawner {
 		var sharpnessHolder = registry.get(Enchantments.SHARPNESS);
 		var armorPiercerHolder = registry.get(GrimdepthEnchantments.ARMOR_PIERCER);
 
-		RandomSource random = zombie.getRandom();
 		boolean both = random.nextDouble() < cfg.bothEnchantmentsChance;
 		if (both) {
 			sharpnessHolder.ifPresent(h -> weaponStack.enchant(h, 1));
@@ -196,6 +218,9 @@ public final class GrimdepthSpawner {
 	}
 
 	public static boolean applySpiderSpawn(Spider spider, ServerLevelAccessor level) {
+		if (spider.getClass() != Spider.class) {
+			return false;
+		}
 		BlockPos pos = spider.blockPosition();
 		if (!isUnderground(level, pos) || pos.getY() > GrimdepthConfig.INSTANCE.general.deepslateYLevel) {
 			return false;
