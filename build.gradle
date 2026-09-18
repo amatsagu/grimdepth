@@ -1,0 +1,74 @@
+plugins {
+	id("net.fabricmc.fabric-loom") version "${loom_version}"
+}
+
+version = "${version}"
+group = "${group}"
+base {
+	archivesName = "${mod_id}"
+}
+
+repositories {
+	maven {
+		name = "FabricMC"
+		url = "https://maven.fabricmc.net"
+	}
+}
+
+loom {
+	def classTweaker = file("src/main/resources/${mod_id}.classtweaker")
+	if (classTweaker.exists()) {
+		accessWidenerPath = classTweaker
+	}
+
+	runs {
+		configureEach {
+			vmArg("--enable-final-field-mutation=ALL-UNNAMED")
+		}
+	}
+}
+
+dependencies {
+	minecraft("com.mojang:minecraft:${minecraft_version}")
+	implementation("net.fabricmc:fabric-loader:${loader_version}")
+	implementation("net.fabricmc.fabric-api:fabric-api:${fabric_api_version}")
+}
+
+processResources {
+	filteringCharset = "UTF-8"
+	def props = [
+			"project_name"   : rootProject.name,
+			"mod_id"         : mod_id,
+			"mod_name"       : mod_name,
+			"mod_description": mod_description,
+			"version"        : version,
+	]
+	inputs.properties(props)
+	filesMatching(["fabric.mod.json"]) {
+		expand(props)
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.encoding = "UTF-8"
+	it.options.release = 25
+	it.options.compilerArgs << "-Xlint:deprecation"
+}
+
+java {
+	withSourcesJar()
+	sourceCompatibility = JavaVersion.VERSION_25
+	targetCompatibility = JavaVersion.VERSION_25
+}
+
+tasks.withType(AbstractArchiveTask).configureEach {
+	reproducibleFileOrder = true
+	preserveFileTimestamps = false
+}
+
+jar {
+	exclude(".cache/")
+	from(file("LICENSE")) {
+		rename("LICENSE", "LICENSE_${mod_id}")
+	}
+}

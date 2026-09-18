@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "package": "amatsagu.grimdepth.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "AbstractArrowMixin",
+    "CombatRulesMixin",
+    "CreeperMixin",
+    "LivingEntityMixin",
+    "MobMixin",
+    "SkeletonSpawnMixin",
+    "SpiderSpawnMixin",
+    "ZombieMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
