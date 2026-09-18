@@ -55,6 +55,10 @@
     - Replaces the artificial fullbright ambient wash and the end-of-potion flashing shader/fog flicker.
     - Enhances vision naturally by boosting the player's brightness setting: **+25% at Level 1** and **+10% per level above 1** (Level 2 = +35%, Level 3 = +45%).
     - Fully compatible with underwater Conduit Power vision.
+  * **Anti-Cheat & Boundary Edge Case Protection**:
+    - **No Negative Brightness**: If a player drops their brightness setting to 0% with Night Vision I active, brightness remains at 25% and cleanly returns to 0% when the effect expires without ever dipping into negatives.
+    - **200% Absolute Maximum Cap**: Brightness is strictly clamped to a maximum of 200% (`2.0`), preventing runaway values from custom potion amplifiers or commands.
+    - **Config Anti-Cheat (Singleplayer & Multiplayer)**: On joining any world (singleplayer or multiplayer), the client inspects `options.gamma`. If artificially boosted in game configs (`options.txt` > 100%), it is immediately restored to default 75% (`0.75`).
 
 ---
 
@@ -146,7 +150,10 @@ All features, spawn chances, depth thresholds, equipment pools, and recoil setti
     "brightnessDarkeningScale": 0.6666666666666666,
     "nightVisionBaseBoost": 0.25,
     "nightVisionPerLevelBoost": 0.10,
-    "disableNightVisionFlashingShader": true
+    "disableNightVisionFlashingShader": true,
+    "maxBrightnessCap": 2.0,
+    "antiCheatMaxGamma": 1.0,
+    "antiCheatResetGamma": 0.75
   }
 }
 ```

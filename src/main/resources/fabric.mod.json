@@ -17,6 +17,9 @@
   "entrypoints": {
     "main": [
       "amatsagu.grimdepth.common.Grimdepth"
+    ],
+    "client": [
+      "amatsagu.grimdepth.client.GrimdepthClient"
     ]
   },
   "mixins": [

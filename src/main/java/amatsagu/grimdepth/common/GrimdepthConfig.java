@@ -34,6 +34,9 @@ public class GrimdepthConfig {
 		public double nightVisionPerLevelBoost = 0.10;
 		public boolean disableNightVisionFlashingShader = true;
 		public boolean gammaMigratedTo75 = false;
+		public double maxBrightnessCap = 2.0;
+		public double antiCheatMaxGamma = 1.0;
+		public double antiCheatResetGamma = 0.75;
 	}
 
 	public static class GeneralConfig {
