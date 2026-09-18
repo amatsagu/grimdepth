@@ -9,10 +9,17 @@
 
 - **Armor Piercer Enchantment**:
   * Can be applied to Swords, Axes, Bows, Crossbows, Tridents, and Spears/Maces.
-  * Maximum level 3: ignores 10%, 20%, or 30% of target's armor on attack. If target has no armor, it does nothing.
-  * Rare enchantment rarity (matching Fortune) that can be found in enchanting tables and dungeon loot.
-  * Successful armor-piercing hits produce ominous blue skull particles.
-  * Projectiles thrown or shot with Armor Piercer (arrows, tridents, spears) leave a continuous trail line of blue skull particles while in flight.
+  * Maximum level 3: ignores 10%, 20%, or 30% of target's armor on attack.
+  * Rare enchantment rarity (matching Fortune) that can be found in enchanting tables, dungeon loot, and villager trades.
+  * **Critical Hit Particle Replacement**: Replaces vanilla critical hit particles with ominous blue skull particles (`TRIAL_OMEN`) across all melee weapons (including spears) and projectiles (bows, crossbows, tridents).
+  * Prioritizes blue skull particles over Sharpness enchanted hit particles so visuals are never mixed.
+  * Thrown tridents and projectile arrows leave a continuous blue skull trail in flight.
+
+- **Backstep Enchantment**:
+  * Rare enchantment (matching Fortune rarity) applicable to **Bows**, **Crossbows**, and **Tridents**.
+  * **Smooth Recoil**: When successfully releasing an arrow from a bow, firing from a crossbow, or throwing a trident, the player is gently pushed backward by ~1 block (configurable) in the opposite direction of aim.
+  * **Safe Floor Detection**: Recoil only triggers if there is a safe, solid floor behind the player. Prevents accidentally stepping into lava, fire, campfires, cacti, magma, or falling off cliffs into the void.
+  * **Mobility & Visuals**: Grants 5 seconds of Movement Speed with subtle, ambient beacon-style swirls (`ambient = true`) and creates a small smoke poof near the player's feet as they recoil.
 
 - **Underground Skeletons**:
   * Skeletons spawning underground scale in danger the deeper you go.
@@ -20,20 +27,22 @@
   * Upper underground skeletons roll either Power or Armor Piercer.
   * From Deepslate level downward, skeletons can spawn wielding bows with **both** Power and Armor Piercer (up to Level 3).
 
-- **Underground Zombies & Zombie Leaders**:
+- **Underground Zombies & Vanilla Zombie Leaders**:
   * Zombies follow the same depth-scaled equipment chances as skeletons.
   * Equipped zombies spawn with stone or iron shovels or pickaxes (pickaxes favored). Tools are mostly stone higher up and mostly iron at Deepslate depths.
   * **Zombie Leaders**:
-    * Starting at Deepslate level, zombies have a 35% chance to spawn as a Zombie Leader.
-    * Maximum of 2 active leaders in nearby terrain (spawns temporarily pause if 2 are active nearby).
-    * Guaranteed Iron Sword with Sharpness, Armor Piercer, or both.
-    * Equipped with 2 random pieces from an iron & chainmail armor pool.
-    * +10% bonus movement speed and increased step height / jump boost capable of jumping 1.5 blocks (over fences).
-    * Emits ambient blue skull particles when players are close enough to perceive them.
+    * Starting at Deepslate level, zombies have a 35% chance to spawn as a Zombie Leader (max 2 nearby).
+    * Integrated with Minecraft's native built-in leader system:
+      * Automatically breaks wooden doors (`setCanBreakDoors(true)`).
+      * Applies vanilla `leader_zombie_bonus` to reinforcement call chance (+0.5 to +0.75).
+      * Applies vanilla `leader_zombie_bonus` to maximum health (2× to 4× health multiplier).
+    * Equipped with a guaranteed Iron Sword (Sharpness, Armor Piercer, or both) and 2 random pieces from an iron & chainmail armor pool.
+    * Enhanced with +10% bonus movement speed, 1.5-block step height, jump boost, and an ambient blue skull aura when players draw near.
 
 - **Underground Creepers**:
-  * Dynamic fuse times: underground creepers randomly roll a fuse between standard (30 ticks) and 3x faster (10 ticks) whenever they start swelling.
-  * **Light Hunters**: deep underground creepers seek out and detonate near light sources (torches, soul torches, lanterns, soul lanterns, glowstone, lit redstone lamps, lit copper bulbs). Player combat always takes priority over light hunting.
+  * **Dynamic Fuse Times**: Underground creepers randomly roll a fuse between standard (30 ticks) and 3× faster (10 ticks) whenever swelling.
+  * **Light Hunters**: Deep underground creepers search out and detonate near light sources (torches, soul torches, lanterns, soul lanterns, glowstone, lit redstone lamps, lit copper bulbs).
+  * Player combat always takes priority over light hunting. When hunting light, creepers navigate to the light source, halt within 3 blocks, and detonate cleanly.
 
 - **Deepslate Replacements**:
   * From Deepslate level ($Y \le 0$), Spiders have a 10% chance to spawn as **Cave Spiders**.
@@ -43,7 +52,7 @@
 
 ## Configuration
 
-All values, spawn chances, depth thresholds, and equipment pools can be customized in `.minecraft/config/grimdepth.json`:
+All features, spawn chances, depth thresholds, equipment pools, and recoil settings are 100% configurable in `.minecraft/config/grimdepth.json`:
 
 ```json
 {
@@ -60,6 +69,16 @@ All values, spawn chances, depth thresholds, and equipment pools can be customiz
     ],
     "spawnBlueSkullParticles": true,
     "projectileTrailParticles": true
+  },
+  "backstep": {
+    "enabled": true,
+    "pushDistanceBlocks": 1.0,
+    "scaleWithLevel": true,
+    "pushDistancePerLevel": 0.5,
+    "speedDurationTicks": 100,
+    "speedAmplifier": 0,
+    "requireSafeFloor": true,
+    "maxSafeDropDistance": 2.0
   },
   "skeletons": {
     "minUndergroundEnchantedBowChance": 0.05,
