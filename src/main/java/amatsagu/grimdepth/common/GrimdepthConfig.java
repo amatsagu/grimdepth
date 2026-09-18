@@ -132,7 +132,7 @@ public class GrimdepthConfig {
 	public static class BackstepConfig {
 		public boolean enabled = true;
 		public double pushDistanceBlocks = 1.0;
-		public boolean scaleWithLevel = true;
+		public boolean scaleWithLevel = false;
 		public double pushDistancePerLevel = 0.5;
 		public int speedDurationTicks = 100;
 		public int speedAmplifier = 0;

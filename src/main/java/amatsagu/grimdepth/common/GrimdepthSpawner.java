@@ -83,12 +83,14 @@ public final class GrimdepthSpawner {
 
 		int maxLvl = cfg.maxEnchantLevel;
 		if (isDeepslate) {
-			int powerLvl = 1 + random.nextInt(maxLvl);
-			int apLvl = 1 + random.nextInt(maxLvl);
-			int backstepLvl = 1 + random.nextInt(maxLvl);
-			powerHolder.ifPresent(h -> bow.enchant(h, powerLvl));
-			armorPiercerHolder.ifPresent(h -> bow.enchant(h, apLvl));
-			backstepHolder.ifPresent(h -> bow.enchant(h, backstepLvl));
+			boolean pickPower = random.nextBoolean();
+			int mainEnchantLvl = 1 + random.nextInt(maxLvl);
+			if (pickPower && powerHolder.isPresent()) {
+				bow.enchant(powerHolder.get(), mainEnchantLvl);
+			} else if (armorPiercerHolder.isPresent()) {
+				bow.enchant(armorPiercerHolder.get(), mainEnchantLvl);
+			}
+			backstepHolder.ifPresent(h -> bow.enchant(h, 1));
 		} else {
 			boolean pickPower = random.nextBoolean();
 			int lvl = 1 + random.nextInt(Math.max(1, maxLvl - 1));

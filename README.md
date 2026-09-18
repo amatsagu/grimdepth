@@ -16,16 +16,16 @@
   * Thrown tridents and projectile arrows leave a continuous blue skull trail in flight.
 
 - **Backstep Enchantment**:
-  * Rare enchantment (matching Fortune rarity) applicable to **Bows**, **Crossbows**, and **Tridents**.
-  * **Smooth Recoil**: When successfully releasing an arrow from a bow, firing from a crossbow, or throwing a trident, the player is gently pushed backward by ~1 block (configurable) in the opposite direction of aim.
-  * **Safe Floor Detection**: Recoil only triggers if there is a safe, solid floor behind the player. Prevents accidentally stepping into lava, fire, campfires, cacti, magma, or falling off cliffs into the void.
-  * **Mobility & Visuals**: Grants 5 seconds of Movement Speed with subtle, ambient beacon-style swirls (`ambient = true`) and creates a small smoke poof near the player's feet as they recoil.
+  * Rare single-level enchantment (`max_level = 1`, matching Fortune rarity) applicable to **Bows**, **Crossbows**, and **Tridents**.
+  * **Smooth Recoil**: When successfully releasing an arrow from a bow, firing from a crossbow, or throwing a trident, the entity (player or skeleton) is gently pushed backward by ~1 block in the opposite direction of aim/target.
+  * **Safe Floor Detection**: Recoil only triggers if there is a safe, solid floor behind the shooter. Prevents accidentally stepping into lava, fire, campfires, cacti, magma, or falling off cliffs into the void.
+  * **Mobility & Visuals**: Grants 5 seconds of Movement Speed with subtle, ambient beacon-style swirls (`ambient = true`) and creates a small smoke poof near the shooter's feet as they recoil.
 
 - **Underground Skeletons**:
   * Skeletons spawning underground scale in danger the deeper you go.
   * Chance to spawn with an enchanted bow begins at 5% near the surface, reaches 25% at Deepslate ($Y \le 0$), and ramps up to 50% near Bedrock.
-  * Upper underground skeletons roll either Power or Armor Piercer.
-  * From Deepslate level downward ($Y \le 0$), skeletons that roll enchanted bows **always** receive **Power**, **Armor Piercer**, and **Backstep** (up to Level 3). Skeletons that do not roll enchants remain unenchanted.
+  * Upper underground skeletons roll either Power or Armor Piercer (Levels 1–2).
+  * From Deepslate level downward ($Y \le 0$), skeletons that roll enchanted bows receive either **Power** or **Armor Piercer** (Levels 1–3) plus guaranteed **Backstep I**. When firing their bows, skeletons actively jump back from the player if safe ground is available. Skeletons that do not roll enchants remain unenchanted.
 
 - **Underground Zombies & Vanilla Zombie Leaders**:
   * Zombies follow the same depth-scaled equipment chances as skeletons.
@@ -96,7 +96,7 @@ All features, spawn chances, depth thresholds, equipment pools, and recoil setti
   "backstep": {
     "enabled": true,
     "pushDistanceBlocks": 1.0,
-    "scaleWithLevel": true,
+    "scaleWithLevel": false,
     "pushDistancePerLevel": 0.5,
     "speedDurationTicks": 100,
     "speedAmplifier": 0,

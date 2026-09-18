@@ -17,9 +17,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 
+import net.minecraft.world.entity.Mob;
+
 public final class BackstepHelper {
 
 	public static void tryTrigger(ServerLevel level, LivingEntity shooter, ItemStack weapon) {
+		LivingEntity target = (shooter instanceof Mob mob) ? mob.getTarget() : null;
+		tryTrigger(level, shooter, weapon, target);
+	}
+
+	public static void tryTrigger(ServerLevel level, LivingEntity shooter, ItemStack weapon, LivingEntity target) {
 		GrimdepthConfig.BackstepConfig cfg = GrimdepthConfig.INSTANCE.backstep;
 		if (!cfg.enabled || shooter == null || weapon == null || weapon.isEmpty()) {
 			return;
@@ -34,9 +41,15 @@ public final class BackstepHelper {
 		}
 
 		// Calculate horizontal opposite direction of aim
-		Vec3 look = shooter.getLookAngle();
-		double lookX = look.x;
-		double lookZ = look.z;
+		double lookX, lookZ;
+		if (target != null) {
+			lookX = target.getX() - shooter.getX();
+			lookZ = target.getZ() - shooter.getZ();
+		} else {
+			Vec3 look = shooter.getLookAngle();
+			lookX = look.x;
+			lookZ = look.z;
+		}
 		double horizDist = Math.sqrt(lookX * lookX + lookZ * lookZ);
 		if (horizDist < 1e-4) {
 			float yawRad = (float) Math.toRadians(shooter.getYRot());
@@ -63,6 +76,9 @@ public final class BackstepHelper {
 		double impulseY = shooter.onGround() ? 0.08 : 0.0;
 
 		shooter.push(dirX * impulse, impulseY, dirZ * impulse);
+		shooter.syncVelocity = true;
+		shooter.needsSync = true;
+		level.getChunkSource().sendToTrackingPlayersAndSelf(shooter, new ClientboundSetEntityMotionPacket(shooter));
 		if (shooter instanceof ServerPlayer serverPlayer) {
 			serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(serverPlayer));
 		}
