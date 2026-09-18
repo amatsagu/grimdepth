@@ -24,6 +24,7 @@ public class GrimdepthConfig {
 	public CreepersConfig creepers = new CreepersConfig();
 	public SpidersConfig spiders = new SpidersConfig();
 	public BatsConfig bats = new BatsConfig();
+	public BackstepConfig backstep = new BackstepConfig();
 
 	public static class GeneralConfig {
 		public int undergroundYLevel = 64;
@@ -89,6 +90,17 @@ public class GrimdepthConfig {
 
 	public static class BatsConfig {
 		public double deepslateVexChance = 0.10;
+	}
+
+	public static class BackstepConfig {
+		public boolean enabled = true;
+		public double pushDistanceBlocks = 1.0;
+		public boolean scaleWithLevel = true;
+		public double pushDistancePerLevel = 0.5;
+		public int speedDurationTicks = 100;
+		public int speedAmplifier = 0;
+		public boolean requireSafeFloor = true;
+		public double maxSafeDropDistance = 2.0;
 	}
 
 	public static void load() {

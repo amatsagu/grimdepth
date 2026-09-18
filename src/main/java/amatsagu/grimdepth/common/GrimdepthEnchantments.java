@@ -17,6 +17,11 @@ public final class GrimdepthEnchantments {
 			Identifier.fromNamespaceAndPath("grimdepth", "armor_piercer")
 	);
 
+	public static final ResourceKey<Enchantment> BACKSTEP = ResourceKey.create(
+			Registries.ENCHANTMENT,
+			Identifier.fromNamespaceAndPath("grimdepth", "backstep")
+	);
+
 	public static int getArmorPiercerLevel(Level level, ItemStack stack) {
 		if (stack == null || stack.isEmpty() || level == null) {
 			return 0;
@@ -26,6 +31,18 @@ public final class GrimdepthEnchantments {
 			return 0;
 		}
 		Optional<Holder.Reference<Enchantment>> opt = lookup.get().get(ARMOR_PIERCER);
+		return opt.map(holder -> EnchantmentHelper.getItemEnchantmentLevel(holder, stack)).orElse(0);
+	}
+
+	public static int getBackstepLevel(Level level, ItemStack stack) {
+		if (stack == null || stack.isEmpty() || level == null) {
+			return 0;
+		}
+		var lookup = level.registryAccess().lookup(Registries.ENCHANTMENT);
+		if (lookup.isEmpty()) {
+			return 0;
+		}
+		Optional<Holder.Reference<Enchantment>> opt = lookup.get().get(BACKSTEP);
 		return opt.map(holder -> EnchantmentHelper.getItemEnchantmentLevel(holder, stack)).orElse(0);
 	}
 }

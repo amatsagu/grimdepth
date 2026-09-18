@@ -1,5 +1,8 @@
 {
   "enchantment.grimdepth.armor_piercer": "Armor Piercer",
   "enchantment.grimdepth.armor_piercer.desc": "Bypasses a portion of the target's armor upon hit.",
-  "tag.item.grimdepth.enchantable.armor_piercer": "Armor Piercer Enchantable"
+  "tag.item.grimdepth.enchantable.armor_piercer": "Armor Piercer Enchantable",
+  "enchantment.grimdepth.backstep": "Backstep",
+  "enchantment.grimdepth.backstep.desc": "Gently recoils the player backward upon firing projectiles and grants a burst of speed.",
+  "tag.item.grimdepth.enchantable.backstep": "Backstep Enchantable"
 }
