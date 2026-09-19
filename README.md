@@ -20,29 +20,25 @@ This mod was originally a datapack that I've created to slightly boost monsters 
   * Zombie Leaders receive a slight bonus to movement speed & jump boost and are always granted an iron sword + 2 random pieces of iron/chainmail equipment.
   * They are more likely to spawn closer to bedrock layer in the overworld, but there's a limit of max 2 near the player in combat.
 - In deep underground caves (starting from `Y < 0`), Skeletons and Zombies scale in danger the deeper you explore:
-  * **Skeletons**: Skeletons will always use bows, but have an increasing chance to spawn with enchanted bows (Power or Armor Piercer). In deepslate caverns, enchanted skeletons are also guaranteed the **Backstep** enchantment — when they shoot their bow, they will actively leap backward away from the player if safe ground is available behind them.
-  * **Zombies**: Zombies may be found with random pieces of equipment they had before turning into a monster (shovels, pickaxes, or swords), favoring primitive stone tools higher up and advanced iron tools deep down.
-- **Underground Creepers**:
-  * **Unpredictable Fuses**: Underground creepers can detonate noticeably faster than surface creepers, keeping encounters tense and unpredictable.
-  * **Light Hunters**: Deep underground creepers actively seek out and detonate near light sources (torches, lanterns, glowstone, lit redstone lamps, copper bulbs) to plunge caverns back into darkness. Combat with players always takes priority, but unlit areas will quickly return to the shadows.
-- **Deepslate Spiders & Cobweb Ambushes**:
-  * All spiders spawning in deepslate (`Y <= 0`) are **smaller**, making them nimbler and harder to hit in tight cave passages.
-  * When defeated, they trigger the **Weaving** effect, randomly scattering cobweb blocks around their death point.
-  * **Cobweb Ambush**: Breaking any of these naturally spawned cobwebs in deepslate has a chance to immediately disturb another small, angry spider lurking in the webs to attack.
-- **Atmospheric Darkness & Reworked Night Vision**:
-  * **Atmospheric Cave Ambience**: Caves are calibrated to feel naturally darker and more atmospheric, with deeper shadows and richer contrast underground.
-  * **Reworked Night Vision**: Replaces the artificial fullbright ambient wash and end-of-potion flashing shader with a natural, immersive vision boost that scales with effect level.
-- **Nightmare Awareness**:
-  * An ominous, harmful status effect marked by red raid omen skull particles.
-  * **Mining Triggers**: Mining naturally generated deepslate ores deep underground has a chance to inflict Nightmare Awareness. The chance increases when mining in pitch darkness, and is significantly higher for rare veins like Deepslate Diamonds and Emeralds. Player-placed ores are tracked and will never trigger the effect.
-  * **Dark Ambushes**: While afflicted (lasting for a short time, refreshing and increasing in level if triggered again), hostile monsters periodically manifest from nearby unlit darkness and immediately hunt down the player.
-  * **Escalating Threat**: Higher effect levels summon deadlier creatures:
-    - **Level 1**: Zombies, Skeletons, Spiders.
-    - **Level 2**: Level 1 pool + Creepers, Husks.
-    - **Level 3+**: Level 2 pool + Witches, Cave Spiders.
-- **Compatibility & Recommended Mods**:
-  * **[Penchant](https://github.com/ThePotatoArchivist/Penchant)** (Optional): Zero-dependency integration. When installed, Armor Piercer levels up through weapon durability use, and Backstep is treated as an instant max-level rare enchantment.
-  * **[Let Me Despawn](https://modrinth.com/mod/lmd)** (Recommended): Recommended companion mod that allows underground mobs with equipped tools or picked-up items to despawn naturally and drop their loot, preventing cave entity buildup.
+  * Skeletons will always use bows, but have an increasing chance to spawn with enchanted bows (Power or Armor Piercer). In deepslate caverns, enchanted skeletons also receive the Backstep enchantment — when they shoot their bow, they will actively leap backward away from the player if safe ground is available behind them.
+  * Zombies may be found with random pieces of equipment they had before turning into a monster (shovels, pickaxes, or swords), favoring primitive stone tools higher up and advanced iron tools deep down.
+- Underground Creepers are noticeably more aggressive and unpredictable:
+  * Their fuses can detonate faster when underground, giving players less time to react.
+  * Deep underground creepers will actively seek out and blow up placed light sources (torches, lanterns, glowstone, copper bulbs) to plunge caves back into darkness. When fighting a player, combat takes priority, but unlit corridors will quickly return to the shadows.
+- Spiders in deepslate layers (`Y < 0`) have adapted to narrow cave environments:
+  * All deepslate spiders are smaller than usual, making them nimbler and harder to hit in tight passages.
+  * When defeated, they trigger the Weaving effect, leaving a patch of cobwebs scattered around their death point.
+  * Breaking any of these naturally spawned cobwebs in deepslate caves can disturb another small, angry spider lurking in the shadows, triggering an immediate ambush.
+- Cave lighting and the Night Vision effect have been overhauled for better cave atmosphere:
+  * Deep caves feel naturally darker and more atmospheric, with richer shadows underground while keeping default game brightness comfortable.
+  * Night Vision no longer gives a flat artificial fullbright wash or that jarring flashing screen near the end. Instead, it naturally brightens up your vision in an immersive way that scales with effect level.
+- Nightmare Awareness is a new harmful status effect marked by ominous red skull particles:
+  * Mining naturally generated deepslate ores deep underground has a chance to inflict this effect. The chance grows higher when mining in pitch darkness and is highest when mining rare veins like diamond and emerald ores (player-placed ores are tracked and will never trigger it).
+  * While active, the darkness around you stirs. Hostile monsters will periodically manifest from nearby unlit dark corners and immediately hunt down the player who has the effect.
+  * Gaining the effect again while it is still active refreshes the timer and raises its intensity, causing increasingly dangerous monster varieties to emerge from the darkness.
+- Recommended companion mods that pair well with Grimdepth:
+  * [Penchant](https://github.com/ThePotatoArchivist/Penchant): Grimdepth has built-in optional support for Penchant. When installed, Armor Piercer levels up through weapon durability use, and Backstep works as an instant max-level rare enchantment.
+  * [Let Me Despawn](https://modrinth.com/mod/lmd): Highly recommended for server performance, allowing underground mobs that spawn with tools or pick up items to despawn naturally and drop their gear so caves never get overcrowded.
 
 ---
 
