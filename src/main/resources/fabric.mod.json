@@ -13,6 +13,7 @@
     "issues": "https://github.com/amatsagu/${project_name}/issues"
   },
   "license": "All Rights Reserved",
+  "icon": "assets/${mod_id}/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
