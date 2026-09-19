@@ -28,7 +28,7 @@ public final class BackstepHelper {
 
 	public static void tryTrigger(ServerLevel level, LivingEntity shooter, ItemStack weapon, LivingEntity target) {
 		GrimdepthConfig.BackstepConfig cfg = GrimdepthConfig.INSTANCE.backstep;
-		if (!cfg.enabled || shooter == null || weapon == null || weapon.isEmpty()) {
+		if (shooter == null || weapon == null || weapon.isEmpty()) {
 			return;
 		}
 		if (shooter.isPassenger() || shooter.isFallFlying()) {

@@ -13,7 +13,17 @@ import java.util.List;
 
 public class GrimdepthConfig {
 	private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-	private static final File FILE = FabricLoader.getInstance().getConfigDir().resolve("grimdepth.json").toFile();
+
+	private static File getConfigFile() {
+		try {
+			var loader = FabricLoader.getInstance();
+			if (loader != null && loader.getConfigDir() != null) {
+				return loader.getConfigDir().resolve("grimdepth.json").toFile();
+			}
+		} catch (Throwable ignored) {
+		}
+		return new File("config/grimdepth.json");
+	}
 
 	public static GrimdepthConfig INSTANCE = new GrimdepthConfig();
 
@@ -30,14 +40,12 @@ public class GrimdepthConfig {
 	public DungeonLootConfig dungeonLoot = new DungeonLootConfig();
 
 	public static class DungeonLootConfig {
-		public boolean enabled = true;
 		public int emptyWeight = 18;
 		public int armorPiercerWeight = 1;
 		public int backstepWeight = 1;
 	}
 
 	public static class NightmareAwarenessConfig {
-		public boolean enabled = true;
 		public int maxTriggerYLevel = 0;
 		public double defaultOreChance = 0.10;
 		public double darkOreChance = 0.35;
@@ -96,11 +104,17 @@ public class GrimdepthConfig {
 		public double bedrockToolChance = 0.50;
 		public double pickaxeChance = 0.70;
 		public double shovelChance = 0.30;
-		public double upperLevelsStoneToolChance = 0.80;
-		public double deepslateIronToolChance = 0.80;
-		public List<String> stoneTools = new ArrayList<>(List.of("minecraft:stone_pickaxe", "minecraft:stone_shovel"));
-		public List<String> ironTools = new ArrayList<>(List.of("minecraft:iron_pickaxe", "minecraft:iron_shovel"));
+		public double upperLevelsPrimitiveToolChance = 0.80;
+		public double deepslateAdvancedToolChance = 0.80;
+		public List<String> primitiveTools = new ArrayList<>(List.of("minecraft:stone_pickaxe", "minecraft:stone_shovel"));
+		public List<String> advancedTools = new ArrayList<>(List.of("minecraft:iron_pickaxe", "minecraft:iron_shovel"));
 		public LeaderConfig leaders = new LeaderConfig();
+
+		// Legacy aliases for config backwards compatibility
+		public List<String> stoneTools;
+		public List<String> ironTools;
+		public Double upperLevelsStoneToolChance;
+		public Double deepslateIronToolChance;
 	}
 
 	public static class LeaderConfig {
@@ -138,7 +152,6 @@ public class GrimdepthConfig {
 	}
 
 	public static class BackstepConfig {
-		public boolean enabled = true;
 		public double pushDistanceBlocks = 1.0;
 		public boolean scaleWithLevel = false;
 		public double pushDistancePerLevel = 0.5;
@@ -149,11 +162,12 @@ public class GrimdepthConfig {
 	}
 
 	public static void load() {
-		if (!FILE.exists()) {
+		File file = getConfigFile();
+		if (!file.exists()) {
 			save();
 			return;
 		}
-		try (FileReader reader = new FileReader(FILE)) {
+		try (FileReader reader = new FileReader(file)) {
 			GrimdepthConfig loaded = GSON.fromJson(reader, GrimdepthConfig.class);
 			if (loaded != null) {
 				INSTANCE = loaded;
@@ -167,6 +181,27 @@ public class GrimdepthConfig {
 				if (INSTANCE.backstep == null) INSTANCE.backstep = new BackstepConfig();
 				if (INSTANCE.lighting == null) INSTANCE.lighting = new LightingConfig();
 				if (INSTANCE.nightmareAwareness == null) INSTANCE.nightmareAwareness = new NightmareAwarenessConfig();
+				if (INSTANCE.dungeonLoot == null) INSTANCE.dungeonLoot = new DungeonLootConfig();
+
+				// Migrate legacy zombies config keys if present
+				if (INSTANCE.zombies.stoneTools != null && !INSTANCE.zombies.stoneTools.isEmpty()
+						&& (INSTANCE.zombies.primitiveTools == null || INSTANCE.zombies.primitiveTools.isEmpty())) {
+					INSTANCE.zombies.primitiveTools = new ArrayList<>(INSTANCE.zombies.stoneTools);
+				}
+				if (INSTANCE.zombies.ironTools != null && !INSTANCE.zombies.ironTools.isEmpty()
+						&& (INSTANCE.zombies.advancedTools == null || INSTANCE.zombies.advancedTools.isEmpty())) {
+					INSTANCE.zombies.advancedTools = new ArrayList<>(INSTANCE.zombies.ironTools);
+				}
+				if (INSTANCE.zombies.upperLevelsStoneToolChance != null) {
+					INSTANCE.zombies.upperLevelsPrimitiveToolChance = INSTANCE.zombies.upperLevelsStoneToolChance;
+				}
+				if (INSTANCE.zombies.deepslateIronToolChance != null) {
+					INSTANCE.zombies.deepslateAdvancedToolChance = INSTANCE.zombies.deepslateIronToolChance;
+				}
+				INSTANCE.zombies.stoneTools = null;
+				INSTANCE.zombies.ironTools = null;
+				INSTANCE.zombies.upperLevelsStoneToolChance = null;
+				INSTANCE.zombies.deepslateIronToolChance = null;
 			}
 		} catch (Exception e) {
 			save();
@@ -175,11 +210,12 @@ public class GrimdepthConfig {
 
 	public static void save() {
 		try {
-			File parent = FILE.getParentFile();
+			File file = getConfigFile();
+			File parent = file.getParentFile();
 			if (parent != null && !parent.exists()) {
 				parent.mkdirs();
 			}
-			try (FileWriter writer = new FileWriter(FILE)) {
+			try (FileWriter writer = new FileWriter(file)) {
 				GSON.toJson(INSTANCE, writer);
 			}
 		} catch (IOException ignored) {

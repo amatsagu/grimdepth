@@ -135,11 +135,11 @@ public final class GrimdepthSpawner {
 		}
 
 		boolean pickaxe = random.nextDouble() < cfg.pickaxeChance;
-		boolean iron = isDeepslate
-				? random.nextDouble() < cfg.deepslateIronToolChance
-				: random.nextDouble() >= cfg.upperLevelsStoneToolChance;
+		boolean advanced = isDeepslate
+				? random.nextDouble() < cfg.deepslateAdvancedToolChance
+				: random.nextDouble() >= cfg.upperLevelsPrimitiveToolChance;
 
-		List<String> pool = iron ? cfg.ironTools : cfg.stoneTools;
+		List<String> pool = advanced ? cfg.advancedTools : cfg.primitiveTools;
 		Item toolItem = getItemFromPool(pool, pickaxe ? "pickaxe" : "shovel");
 		if (toolItem != null) {
 			zombie.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(toolItem));

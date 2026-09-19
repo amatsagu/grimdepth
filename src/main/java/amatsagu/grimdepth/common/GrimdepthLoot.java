@@ -45,11 +45,11 @@ public class GrimdepthLoot {
 
     public static void init() {
         LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
-            GrimdepthConfig.DungeonLootConfig config = GrimdepthConfig.INSTANCE.dungeonLoot;
-            if (!config.enabled || !TARGET_DUNGEONS.contains(key)) {
+            if (!TARGET_DUNGEONS.contains(key)) {
                 return;
             }
 
+            GrimdepthConfig.DungeonLootConfig config = GrimdepthConfig.INSTANCE.dungeonLoot;
             var enchantmentRegistryOpt = registries.lookup(Registries.ENCHANTMENT);
             if (enchantmentRegistryOpt.isEmpty()) {
                 return;

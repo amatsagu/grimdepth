@@ -22,9 +22,6 @@ public abstract class LivingEntityMixin {
 
 	@Inject(method = "getVisibilityPercent", at = @At("RETURN"), cancellable = true)
 	private void grimdepth$scaleNightmareVisibility(ServerLevel level, Entity attacker, CallbackInfoReturnable<Double> cir) {
-		if (!GrimdepthConfig.INSTANCE.nightmareAwareness.enabled) {
-			return;
-		}
 		if (attacker == null || attacker instanceof Enemy) {
 			MobEffectInstance effect = this.getEffect(GrimdepthEffects.NIGHTMARE_AWARENESS);
 			if (effect != null) {

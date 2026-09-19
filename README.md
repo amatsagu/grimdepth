@@ -33,7 +33,7 @@
 
 - **Underground Zombies & Vanilla Zombie Leaders**:
   * Zombies follow the same depth-scaled equipment chances as skeletons.
-  * Equipped zombies spawn with stone or iron shovels or pickaxes (pickaxes favored). Tools are mostly stone higher up and mostly iron at Deepslate depths.
+  * Equipped zombies spawn with primitive or advanced tools (pickaxes favored over shovels). Spawns mostly primitive tools higher up and mostly advanced tools at Deepslate depths (defaults to stone and iron tool pools).
   * **Zombie Leaders**:
     * Starting at Deepslate level, zombies have a 35% chance to spawn as a Zombie Leader (max 2 nearby).
     * Integrated with Minecraft's native built-in leader system:
@@ -124,7 +124,6 @@ All features, spawn chances, depth thresholds, equipment pools, and recoil setti
     "projectileTrailParticles": true
   },
   "backstep": {
-    "enabled": true,
     "pushDistanceBlocks": 1.0,
     "scaleWithLevel": false,
     "pushDistancePerLevel": 0.5,
@@ -145,13 +144,13 @@ All features, spawn chances, depth thresholds, equipment pools, and recoil setti
     "bedrockToolChance": 0.50,
     "pickaxeChance": 0.70,
     "shovelChance": 0.30,
-    "upperLevelsStoneToolChance": 0.80,
-    "deepslateIronToolChance": 0.80,
-    "stoneTools": [
+    "upperLevelsPrimitiveToolChance": 0.80,
+    "deepslateAdvancedToolChance": 0.80,
+    "primitiveTools": [
       "minecraft:stone_pickaxe",
       "minecraft:stone_shovel"
     ],
-    "ironTools": [
+    "advancedTools": [
       "minecraft:iron_pickaxe",
       "minecraft:iron_shovel"
     ],
@@ -197,7 +196,6 @@ All features, spawn chances, depth thresholds, equipment pools, and recoil setti
     "antiCheatResetGamma": 0.75
   },
   "nightmareAwareness": {
-    "enabled": true,
     "maxTriggerYLevel": 0,
     "defaultOreChance": 0.10,
     "darkOreChance": 0.35,
@@ -213,7 +211,6 @@ All features, spawn chances, depth thresholds, equipment pools, and recoil setti
     "maxLevel": 10
   },
   "dungeonLoot": {
-    "enabled": true,
     "emptyWeight": 18,
     "armorPiercerWeight": 1,
     "backstepWeight": 1

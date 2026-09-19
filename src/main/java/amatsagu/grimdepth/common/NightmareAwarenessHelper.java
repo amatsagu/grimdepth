@@ -47,9 +47,6 @@ public class NightmareAwarenessHelper {
 		}
 
 		GrimdepthConfig.NightmareAwarenessConfig config = GrimdepthConfig.INSTANCE.nightmareAwareness;
-		if (!config.enabled) {
-			return;
-		}
 
 		if (!state.is(GrimdepthTags.DEEPSLATE_ORES)) {
 			return;
