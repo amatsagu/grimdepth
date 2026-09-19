@@ -1,6 +1,6 @@
 <div align="center">
   <h1>
-    <img src="src/main/resources/assets/grimdepth/icon.png" alt="Grimdepth Logo" width="42" height="42" align="middle" />
+    <img src="src/main/resources/assets/grimdepth/icon.png" alt="Grimdepth Logo" width="48" height="48" align="middle" />
     <sub>Grimdepth</sub>
   </h1>
   <h3>A modern Fabric mod that makes deep underground just bit more scary.</h3>
@@ -10,6 +10,9 @@
 This mod was originally a datapack that I've created to slightly boost monsters deep underground, make them just a bit more scary to deal with - so even player in end game gear can find them challenging at times.
 
 **Grimdepth** works mostly at `Y < 0` in overworld and attempts to blend well with Vanilla. It only adds 2 new enchants, everything else is still from base game. Almost everything can be configured in `grimdepth.json` that is generated in game files after first launch.
+
+> [!INFO]
+> Pieces of this mod were created with help of artificial intelligence, mostly in places where I doubted Minecraft Devs sanity when trying to work out their awful code architecture.
 
 ## List of features
 - Adds 2 new enchants to make up for the increased difficulty:
