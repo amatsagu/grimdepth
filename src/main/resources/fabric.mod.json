@@ -33,7 +33,8 @@
     "java": ">=25",
     "fabric-api": "*"
   },
-  "suggests": {
-    "penchant": ">=0.5.5+mc26.3"
+  "recommends": {
+    "penchant": ">=0.5.5+mc26.3",
+    "letmedespawn": ">=1.26.9.1"
   }
 }

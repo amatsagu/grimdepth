@@ -102,6 +102,10 @@
     - **Jungle Temples** (`minecraft:chests/jungle_temple`)
   * Matches Fortune rarity (~5% chance per chest).
 
+- **Recommended Companion Mods**:
+  * **[Penchant](https://github.com/ThePotatoArchivist/Penchant)** (`>=0.5.5+mc26.3`): Optional, zero-dependency integration providing usage-based enchanting progression for Armor Piercer and instant max-level Backstep.
+  * **[Let Me Despawn](https://modrinth.com/mod/lmd)** (`>=1.26.9.1`, MC 26.3+): Recommended performance companion mod that allows underground mobs with equipped tools and picked-up items to despawn naturally and drop their items, preventing entity buildup in caves.
+
 ---
 
 ## Configuration
