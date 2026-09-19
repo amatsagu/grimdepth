@@ -2,7 +2,7 @@
   <h1>
     <sub>Grimdepth</sub>
   </h1>
-  <h3>Deep underground terrors, armor-piercing weaponry, and cave threats for Fabric.</h3>
+  <h3>A modern Fabric mod brings deep underground terrors.</h3>
 </div>
 
 ## List of features
