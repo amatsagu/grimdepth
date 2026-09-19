@@ -13,8 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class BlockItemMixin {
 	@Inject(method = "placeBlock", at = @At("RETURN"))
 	private void grimdepth$onPlaceBlock(BlockPlaceContext context, BlockState state, CallbackInfoReturnable<Boolean> cir) {
-		if (cir.getReturnValue()) {
-			NightmareAwarenessHelper.onBlockPlaced(context.getLevel(), context.getClickedPos(), state);
+		if (!cir.getReturnValue()) {
+			return;
 		}
+		NightmareAwarenessHelper.onBlockPlaced(context.getLevel(), context.getClickedPos(), state);
 	}
 }

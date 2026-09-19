@@ -29,12 +29,13 @@ public abstract class AbstractSkeletonMixin {
 	@Inject(method = "performRangedAttack", at = @At("TAIL"))
 	private void grimdepth$onSkeletonPerformRangedAttack(LivingEntity target, float pullProgress, CallbackInfo ci) {
 		AbstractSkeleton skeleton = (AbstractSkeleton) (Object) this;
-		if (skeleton.level() instanceof ServerLevel serverLevel) {
-			ItemStack weapon = skeleton.getItemInHand(ProjectileUtil.getWeaponHoldingHand(skeleton, Items.BOW));
-			if (weapon.isEmpty()) {
-				weapon = skeleton.getMainHandItem();
-			}
-			BackstepHelper.tryTrigger(serverLevel, skeleton, weapon, target);
+		if (!(skeleton.level() instanceof ServerLevel serverLevel)) {
+			return;
 		}
+		ItemStack weapon = skeleton.getItemInHand(ProjectileUtil.getWeaponHoldingHand(skeleton, Items.BOW));
+		if (weapon.isEmpty()) {
+			weapon = skeleton.getMainHandItem();
+		}
+		BackstepHelper.tryTrigger(serverLevel, skeleton, weapon, target);
 	}
 }

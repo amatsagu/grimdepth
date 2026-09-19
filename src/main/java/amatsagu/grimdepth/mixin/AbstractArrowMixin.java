@@ -28,13 +28,12 @@ public abstract class AbstractArrowMixin {
 		if (self.level().isClientSide() || this.isInGround()) {
 			return;
 		}
+		ServerLevel serverLevel = (ServerLevel) self.level();
 
 		if (!self.entityTags().contains("grimdepth:checked_ap")) {
 			self.addTag("grimdepth:checked_ap");
-			if (self.level() instanceof ServerLevel serverLevel) {
-				if (GrimdepthEnchantments.getArmorPiercerLevel(serverLevel, self.getWeaponItem()) > 0) {
-					self.addTag("grimdepth:has_armor_piercer");
-				}
+			if (GrimdepthEnchantments.getArmorPiercerLevel(serverLevel, self.getWeaponItem()) > 0) {
+				self.addTag("grimdepth:has_armor_piercer");
 			}
 		}
 
@@ -57,27 +56,27 @@ public abstract class AbstractArrowMixin {
 			return;
 		}
 
-		if (self.level() instanceof ServerLevel serverLevel) {
-			Vec3 delta = self.getDeltaMovement();
-			double speed = delta.length();
-			if (speed > 0.05) {
-				Vec3 currentPos = self.position();
-				Vec3 startPos = currentPos.subtract(delta);
-				int steps = speed > 1.0 ? 2 : 1;
-				for (int i = 0; i < steps; i++) {
-					double t = (i + 0.5) / (double) steps;
-					double px = startPos.x + delta.x * t;
-					double py = startPos.y + delta.y * t;
-					double pz = startPos.z + delta.z * t;
-					serverLevel.sendParticles(
-							ParticleTypes.TRIAL_OMEN,
-							px, py, pz,
-							1,
-							0.0, 0.0, 0.0,
-							0.0
-					);
-				}
-			}
+		Vec3 delta = self.getDeltaMovement();
+		double speed = delta.length();
+		if (speed <= 0.05) {
+			return;
+		}
+
+		Vec3 currentPos = self.position();
+		Vec3 startPos = currentPos.subtract(delta);
+		int steps = speed > 1.0 ? 2 : 1;
+		for (int i = 0; i < steps; i++) {
+			double t = (i + 0.5) / (double) steps;
+			double px = startPos.x + delta.x * t;
+			double py = startPos.y + delta.y * t;
+			double pz = startPos.z + delta.z * t;
+			serverLevel.sendParticles(
+					ParticleTypes.TRIAL_OMEN,
+					px, py, pz,
+					1,
+					0.0, 0.0, 0.0,
+					0.0
+			);
 		}
 	}
 

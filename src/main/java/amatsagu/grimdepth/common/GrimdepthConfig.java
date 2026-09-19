@@ -73,7 +73,6 @@ public class GrimdepthConfig {
 		public double nightVisionBaseBoost = 0.25;
 		public double nightVisionPerLevelBoost = 0.10;
 		public boolean disableNightVisionFlashingShader = true;
-		public boolean gammaMigratedTo75 = false;
 		public double maxBrightnessCap = 2.0;
 		public double antiCheatMaxGamma = 1.0;
 		public double antiCheatResetGamma = 0.75;
@@ -109,12 +108,6 @@ public class GrimdepthConfig {
 		public List<String> primitiveTools = new ArrayList<>(List.of("minecraft:stone_pickaxe", "minecraft:stone_shovel"));
 		public List<String> advancedTools = new ArrayList<>(List.of("minecraft:iron_pickaxe", "minecraft:iron_shovel"));
 		public LeaderConfig leaders = new LeaderConfig();
-
-		// Legacy aliases for config backwards compatibility
-		public List<String> stoneTools;
-		public List<String> ironTools;
-		public Double upperLevelsStoneToolChance;
-		public Double deepslateIronToolChance;
 	}
 
 	public static class LeaderConfig {
@@ -169,40 +162,22 @@ public class GrimdepthConfig {
 		}
 		try (FileReader reader = new FileReader(file)) {
 			GrimdepthConfig loaded = GSON.fromJson(reader, GrimdepthConfig.class);
-			if (loaded != null) {
-				INSTANCE = loaded;
-				if (INSTANCE.general == null) INSTANCE.general = new GeneralConfig();
-				if (INSTANCE.armorPiercer == null) INSTANCE.armorPiercer = new ArmorPiercerConfig();
-				if (INSTANCE.skeletons == null) INSTANCE.skeletons = new SkeletonsConfig();
-				if (INSTANCE.zombies == null) INSTANCE.zombies = new ZombiesConfig();
-				if (INSTANCE.creepers == null) INSTANCE.creepers = new CreepersConfig();
-				if (INSTANCE.spiders == null) INSTANCE.spiders = new SpidersConfig();
-				if (INSTANCE.bats == null) INSTANCE.bats = new BatsConfig();
-				if (INSTANCE.backstep == null) INSTANCE.backstep = new BackstepConfig();
-				if (INSTANCE.lighting == null) INSTANCE.lighting = new LightingConfig();
-				if (INSTANCE.nightmareAwareness == null) INSTANCE.nightmareAwareness = new NightmareAwarenessConfig();
-				if (INSTANCE.dungeonLoot == null) INSTANCE.dungeonLoot = new DungeonLootConfig();
-
-				// Migrate legacy zombies config keys if present
-				if (INSTANCE.zombies.stoneTools != null && !INSTANCE.zombies.stoneTools.isEmpty()
-						&& (INSTANCE.zombies.primitiveTools == null || INSTANCE.zombies.primitiveTools.isEmpty())) {
-					INSTANCE.zombies.primitiveTools = new ArrayList<>(INSTANCE.zombies.stoneTools);
-				}
-				if (INSTANCE.zombies.ironTools != null && !INSTANCE.zombies.ironTools.isEmpty()
-						&& (INSTANCE.zombies.advancedTools == null || INSTANCE.zombies.advancedTools.isEmpty())) {
-					INSTANCE.zombies.advancedTools = new ArrayList<>(INSTANCE.zombies.ironTools);
-				}
-				if (INSTANCE.zombies.upperLevelsStoneToolChance != null) {
-					INSTANCE.zombies.upperLevelsPrimitiveToolChance = INSTANCE.zombies.upperLevelsStoneToolChance;
-				}
-				if (INSTANCE.zombies.deepslateIronToolChance != null) {
-					INSTANCE.zombies.deepslateAdvancedToolChance = INSTANCE.zombies.deepslateIronToolChance;
-				}
-				INSTANCE.zombies.stoneTools = null;
-				INSTANCE.zombies.ironTools = null;
-				INSTANCE.zombies.upperLevelsStoneToolChance = null;
-				INSTANCE.zombies.deepslateIronToolChance = null;
+			if (loaded == null) {
+				save();
+				return;
 			}
+			INSTANCE = loaded;
+			if (INSTANCE.general == null) INSTANCE.general = new GeneralConfig();
+			if (INSTANCE.armorPiercer == null) INSTANCE.armorPiercer = new ArmorPiercerConfig();
+			if (INSTANCE.skeletons == null) INSTANCE.skeletons = new SkeletonsConfig();
+			if (INSTANCE.zombies == null) INSTANCE.zombies = new ZombiesConfig();
+			if (INSTANCE.creepers == null) INSTANCE.creepers = new CreepersConfig();
+			if (INSTANCE.spiders == null) INSTANCE.spiders = new SpidersConfig();
+			if (INSTANCE.bats == null) INSTANCE.bats = new BatsConfig();
+			if (INSTANCE.backstep == null) INSTANCE.backstep = new BackstepConfig();
+			if (INSTANCE.lighting == null) INSTANCE.lighting = new LightingConfig();
+			if (INSTANCE.nightmareAwareness == null) INSTANCE.nightmareAwareness = new NightmareAwarenessConfig();
+			if (INSTANCE.dungeonLoot == null) INSTANCE.dungeonLoot = new DungeonLootConfig();
 		} catch (Exception e) {
 			save();
 		}

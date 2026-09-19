@@ -32,13 +32,11 @@ public class NightmareAwarenessHelper {
 	}
 
 	public static void onBlockPlaced(Level level, BlockPos pos, BlockState state) {
-		if (level.isClientSide()) {
+		if (level.isClientSide() || !state.is(GrimdepthTags.DEEPSLATE_ORES)) {
 			return;
 		}
-		if (state.is(GrimdepthTags.DEEPSLATE_ORES)) {
-			String dimKey = getDimensionKey(level);
-			PLACED_ORES.computeIfAbsent(dimKey, k -> ConcurrentHashMap.newKeySet()).add(pos.asLong());
-		}
+		String dimKey = getDimensionKey(level);
+		PLACED_ORES.computeIfAbsent(dimKey, k -> ConcurrentHashMap.newKeySet()).add(pos.asLong());
 	}
 
 	public static void onBlockMined(Level level, Player player, BlockPos pos, BlockState state) {
@@ -82,9 +80,10 @@ public class NightmareAwarenessHelper {
 			chance = Math.max(chance, config.highRiskOreChance);
 		}
 
-		if (player.getRandom().nextDouble() < chance) {
-			applyNightmareAwareness(player);
+		if (player.getRandom().nextDouble() >= chance) {
+			return;
 		}
+		applyNightmareAwareness(player);
 	}
 
 	public static void applyNightmareAwareness(Player player) {

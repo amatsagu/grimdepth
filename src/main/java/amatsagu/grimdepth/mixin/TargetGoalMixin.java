@@ -25,18 +25,21 @@ public class TargetGoalMixin {
 
 	@Inject(method = "getFollowDistance", at = @At("RETURN"), cancellable = true)
 	private void grimdepth$scaleFollowDistance(CallbackInfoReturnable<Double> cir) {
-		if (this.mob instanceof Enemy) {
-			LivingEntity target = this.mob.getTarget();
-			if (target == null) {
-				target = this.targetMob;
-			}
-			if (target != null) {
-				MobEffectInstance effect = target.getEffect(GrimdepthEffects.NIGHTMARE_AWARENESS);
-				if (effect != null) {
-					double multiplier = GrimdepthConfig.INSTANCE.nightmareAwareness.getAggroMultiplier(effect.getAmplifier());
-					cir.setReturnValue(cir.getReturnValueD() * multiplier);
-				}
-			}
+		if (!(this.mob instanceof Enemy)) {
+			return;
 		}
+		LivingEntity target = this.mob.getTarget();
+		if (target == null) {
+			target = this.targetMob;
+		}
+		if (target == null) {
+			return;
+		}
+		MobEffectInstance effect = target.getEffect(GrimdepthEffects.NIGHTMARE_AWARENESS);
+		if (effect == null) {
+			return;
+		}
+		double multiplier = GrimdepthConfig.INSTANCE.nightmareAwareness.getAggroMultiplier(effect.getAmplifier());
+		cir.setReturnValue(cir.getReturnValueD() * multiplier);
 	}
 }

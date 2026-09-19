@@ -22,35 +22,28 @@ public class GrimdepthConfigTest {
     }
 
     @Test
-    public void testLegacyZombieConfigMigration() {
+    public void testConfigSerializationAndDefaults() {
         GrimdepthConfig config = new GrimdepthConfig();
-        config.zombies = new GrimdepthConfig.ZombiesConfig();
-        config.zombies.stoneTools = List.of("minecraft:wooden_pickaxe");
-        config.zombies.ironTools = List.of("minecraft:golden_pickaxe");
-        config.zombies.upperLevelsStoneToolChance = 0.95;
-        config.zombies.deepslateIronToolChance = 0.65;
-        config.zombies.primitiveTools = null;
-        config.zombies.advancedTools = null;
+        Assertions.assertNotNull(config.general);
+        Assertions.assertNotNull(config.skeletons);
+        Assertions.assertNotNull(config.zombies);
+        Assertions.assertNotNull(config.creepers);
+        Assertions.assertNotNull(config.spiders);
+        Assertions.assertNotNull(config.bats);
+        Assertions.assertNotNull(config.backstep);
+        Assertions.assertNotNull(config.lighting);
+        Assertions.assertNotNull(config.nightmareAwareness);
+        Assertions.assertNotNull(config.dungeonLoot);
 
-        // Perform migration logic
-        if (config.zombies.stoneTools != null && !config.zombies.stoneTools.isEmpty()
-                && (config.zombies.primitiveTools == null || config.zombies.primitiveTools.isEmpty())) {
-            config.zombies.primitiveTools = new java.util.ArrayList<>(config.zombies.stoneTools);
-        }
-        if (config.zombies.ironTools != null && !config.zombies.ironTools.isEmpty()
-                && (config.zombies.advancedTools == null || config.zombies.advancedTools.isEmpty())) {
-            config.zombies.advancedTools = new java.util.ArrayList<>(config.zombies.ironTools);
-        }
-        if (config.zombies.upperLevelsStoneToolChance != null) {
-            config.zombies.upperLevelsPrimitiveToolChance = config.zombies.upperLevelsStoneToolChance;
-        }
-        if (config.zombies.deepslateIronToolChance != null) {
-            config.zombies.deepslateAdvancedToolChance = config.zombies.deepslateIronToolChance;
-        }
+        com.google.gson.Gson gson = new com.google.gson.Gson();
+        String json = gson.toJson(config);
+        GrimdepthConfig deserialized = gson.fromJson(json, GrimdepthConfig.class);
 
-        Assertions.assertEquals(List.of("minecraft:wooden_pickaxe"), config.zombies.primitiveTools);
-        Assertions.assertEquals(List.of("minecraft:golden_pickaxe"), config.zombies.advancedTools);
-        Assertions.assertEquals(0.95, config.zombies.upperLevelsPrimitiveToolChance);
-        Assertions.assertEquals(0.65, config.zombies.deepslateAdvancedToolChance);
+        Assertions.assertEquals(config.zombies.upperLevelsPrimitiveToolChance, deserialized.zombies.upperLevelsPrimitiveToolChance);
+        Assertions.assertEquals(config.zombies.deepslateAdvancedToolChance, deserialized.zombies.deepslateAdvancedToolChance);
+        Assertions.assertEquals(config.zombies.primitiveTools, deserialized.zombies.primitiveTools);
+        Assertions.assertEquals(config.zombies.advancedTools, deserialized.zombies.advancedTools);
+        Assertions.assertEquals(config.lighting.defaultGamma, deserialized.lighting.defaultGamma);
+        Assertions.assertEquals(config.backstep.pushDistanceBlocks, deserialized.backstep.pushDistanceBlocks);
     }
 }

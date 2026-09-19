@@ -25,40 +25,40 @@ public abstract class PlayerMixin {
 
 	@Redirect(method = "attackVisualEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;crit(Lnet/minecraft/world/entity/Entity;)V"))
 	private void grimdepth$replaceCritParticles(Player player, Entity target) {
-		ItemStack weapon = player.getMainHandItem();
-		int apLevel = GrimdepthEnchantments.getArmorPiercerLevel(player.level(), weapon);
-		if (apLevel == 0 && !player.getOffhandItem().isEmpty()) {
-			apLevel = GrimdepthEnchantments.getArmorPiercerLevel(player.level(), player.getOffhandItem());
-		}
-		if (apLevel > 0 && GrimdepthConfig.INSTANCE.armorPiercer.spawnBlueSkullParticles) {
-			if (player.level() instanceof ServerLevel serverLevel) {
-				int count = Math.max(1, 1 + apLevel);
-				serverLevel.sendParticles(
-						ParticleTypes.TRIAL_OMEN,
-						target.getX(),
-						target.getY() + target.getBbHeight() * 0.5,
-						target.getZ(),
-						count,
-						0.25, 0.25, 0.25,
-						0.02
-				);
-			}
+		int apLevel = getArmorPiercerLevel(player);
+		if (apLevel <= 0 || !GrimdepthConfig.INSTANCE.armorPiercer.spawnBlueSkullParticles) {
+			player.crit(target);
 			return;
 		}
-		player.crit(target);
+		if (!(player.level() instanceof ServerLevel serverLevel)) {
+			return;
+		}
+		int count = Math.max(1, 1 + apLevel);
+		serverLevel.sendParticles(
+				ParticleTypes.TRIAL_OMEN,
+				target.getX(),
+				target.getY() + target.getBbHeight() * 0.5,
+				target.getZ(),
+				count,
+				0.25, 0.25, 0.25,
+				0.02
+		);
 	}
 
 	@Redirect(method = "attackVisualEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;magicCrit(Lnet/minecraft/world/entity/Entity;)V"))
 	private void grimdepth$replaceMagicCritParticles(Player player, Entity target) {
-		ItemStack weapon = player.getMainHandItem();
-		int apLevel = GrimdepthEnchantments.getArmorPiercerLevel(player.level(), weapon);
-		if (apLevel == 0 && !player.getOffhandItem().isEmpty()) {
-			apLevel = GrimdepthEnchantments.getArmorPiercerLevel(player.level(), player.getOffhandItem());
-		}
-		if (apLevel > 0) {
+		if (getArmorPiercerLevel(player) > 0) {
 			return;
 		}
 		player.magicCrit(target);
+	}
+
+	private static int getArmorPiercerLevel(Player player) {
+		int level = GrimdepthEnchantments.getArmorPiercerLevel(player.level(), player.getMainHandItem());
+		if (level == 0 && !player.getOffhandItem().isEmpty()) {
+			return GrimdepthEnchantments.getArmorPiercerLevel(player.level(), player.getOffhandItem());
+		}
+		return level;
 	}
 
 	@WrapOperation(method = "stabAttack", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;attackVisualEffects(Lnet/minecraft/world/entity/Entity;ZZZZF)V"))

@@ -82,23 +82,16 @@ public final class GrimdepthSpawner {
 		var backstepHolder = registry.get(GrimdepthEnchantments.BACKSTEP);
 
 		int maxLvl = cfg.maxEnchantLevel;
+		int lvl = isDeepslate ? (1 + random.nextInt(maxLvl)) : (1 + random.nextInt(Math.max(1, maxLvl - 1)));
+		boolean pickPower = random.nextBoolean();
+		if (pickPower && powerHolder.isPresent()) {
+			bow.enchant(powerHolder.get(), lvl);
+		} else if (armorPiercerHolder.isPresent()) {
+			bow.enchant(armorPiercerHolder.get(), lvl);
+		}
+
 		if (isDeepslate) {
-			boolean pickPower = random.nextBoolean();
-			int mainEnchantLvl = 1 + random.nextInt(maxLvl);
-			if (pickPower && powerHolder.isPresent()) {
-				bow.enchant(powerHolder.get(), mainEnchantLvl);
-			} else if (armorPiercerHolder.isPresent()) {
-				bow.enchant(armorPiercerHolder.get(), mainEnchantLvl);
-			}
 			backstepHolder.ifPresent(h -> bow.enchant(h, 1));
-		} else {
-			boolean pickPower = random.nextBoolean();
-			int lvl = 1 + random.nextInt(Math.max(1, maxLvl - 1));
-			if (pickPower && powerHolder.isPresent()) {
-				bow.enchant(powerHolder.get(), lvl);
-			} else if (armorPiercerHolder.isPresent()) {
-				bow.enchant(armorPiercerHolder.get(), lvl);
-			}
 		}
 	}
 
@@ -212,12 +205,13 @@ public final class GrimdepthSpawner {
 				break;
 			}
 			Item armorItem = getItemById(id, null);
-			if (armorItem != null) {
-				ItemStack armorStack = new ItemStack(armorItem);
-				Equippable equippable = armorStack.get(DataComponents.EQUIPPABLE);
-				if (equippable != null && equippedSlots.add(equippable.slot())) {
-					zombie.setItemSlot(equippable.slot(), armorStack);
-				}
+			if (armorItem == null) {
+				continue;
+			}
+			ItemStack armorStack = new ItemStack(armorItem);
+			Equippable equippable = armorStack.get(DataComponents.EQUIPPABLE);
+			if (equippable != null && equippedSlots.add(equippable.slot())) {
+				zombie.setItemSlot(equippable.slot(), armorStack);
 			}
 		}
 	}
@@ -230,19 +224,21 @@ public final class GrimdepthSpawner {
 		if (!isUnderground(level, pos) || pos.getY() > GrimdepthConfig.INSTANCE.general.deepslateYLevel) {
 			return false;
 		}
-		if (spider.getRandom().nextDouble() < GrimdepthConfig.INSTANCE.spiders.deepslateCaveSpiderChance) {
-			if (level instanceof ServerLevel serverLevel) {
-				CaveSpider caveSpider = EntityTypes.CAVE_SPIDER.create(serverLevel, EntitySpawnReason.NATURAL);
-				if (caveSpider != null) {
-					caveSpider.copyPosition(spider);
-					caveSpider.finalizeSpawn(serverLevel, level.getCurrentDifficultyAt(pos), EntitySpawnReason.NATURAL, null);
-					serverLevel.addFreshEntity(caveSpider);
-					spider.discard();
-					return true;
-				}
-			}
+		if (spider.getRandom().nextDouble() >= GrimdepthConfig.INSTANCE.spiders.deepslateCaveSpiderChance) {
+			return false;
 		}
-		return false;
+		if (!(level instanceof ServerLevel serverLevel)) {
+			return false;
+		}
+		CaveSpider caveSpider = EntityTypes.CAVE_SPIDER.create(serverLevel, EntitySpawnReason.NATURAL);
+		if (caveSpider == null) {
+			return false;
+		}
+		caveSpider.copyPosition(spider);
+		caveSpider.finalizeSpawn(serverLevel, level.getCurrentDifficultyAt(pos), EntitySpawnReason.NATURAL, null);
+		serverLevel.addFreshEntity(caveSpider);
+		spider.discard();
+		return true;
 	}
 
 	public static boolean applyBatSpawn(Bat bat, ServerLevelAccessor level) {
@@ -250,19 +246,21 @@ public final class GrimdepthSpawner {
 		if (!isUnderground(level, pos) || pos.getY() > GrimdepthConfig.INSTANCE.general.deepslateYLevel) {
 			return false;
 		}
-		if (bat.getRandom().nextDouble() < GrimdepthConfig.INSTANCE.bats.deepslateVexChance) {
-			if (level instanceof ServerLevel serverLevel) {
-				Vex vex = EntityTypes.VEX.create(serverLevel, EntitySpawnReason.NATURAL);
-				if (vex != null) {
-					vex.copyPosition(bat);
-					vex.finalizeSpawn(serverLevel, level.getCurrentDifficultyAt(pos), EntitySpawnReason.NATURAL, null);
-					serverLevel.addFreshEntity(vex);
-					bat.discard();
-					return true;
-				}
-			}
+		if (bat.getRandom().nextDouble() >= GrimdepthConfig.INSTANCE.bats.deepslateVexChance) {
+			return false;
 		}
-		return false;
+		if (!(level instanceof ServerLevel serverLevel)) {
+			return false;
+		}
+		Vex vex = EntityTypes.VEX.create(serverLevel, EntitySpawnReason.NATURAL);
+		if (vex == null) {
+			return false;
+		}
+		vex.copyPosition(bat);
+		vex.finalizeSpawn(serverLevel, level.getCurrentDifficultyAt(pos), EntitySpawnReason.NATURAL, null);
+		serverLevel.addFreshEntity(vex);
+		bat.discard();
+		return true;
 	}
 
 	private static Item getItemFromPool(List<String> pool, String keyword) {

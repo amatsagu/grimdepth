@@ -12,8 +12,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class GameRendererMixin {
 	@Inject(method = "nightVisionScale", at = @At("HEAD"), cancellable = true)
 	private static void grimdepth$disableNightVisionScale(LivingEntity entity, float partialTick, CallbackInfoReturnable<Float> cir) {
-		if (GrimdepthConfig.INSTANCE.lighting.disableNightVisionFlashingShader) {
-			cir.setReturnValue(0.0F);
+		if (!GrimdepthConfig.INSTANCE.lighting.disableNightVisionFlashingShader) {
+			return;
 		}
+		cir.setReturnValue(0.0F);
 	}
 }

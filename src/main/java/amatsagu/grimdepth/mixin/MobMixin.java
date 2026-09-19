@@ -17,10 +17,11 @@ public abstract class MobMixin {
 
 	@Inject(method = "finalizeSpawn", at = @At("TAIL"), cancellable = true)
 	private void grimdepth$onMobFinalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, SpawnGroupData spawnGroupData, CallbackInfoReturnable<SpawnGroupData> cir) {
-		if ((Object) this instanceof Bat bat) {
-			if (GrimdepthSpawner.applyBatSpawn(bat, level)) {
-				cir.cancel();
-			}
+		if (!((Object) this instanceof Bat bat)) {
+			return;
+		}
+		if (GrimdepthSpawner.applyBatSpawn(bat, level)) {
+			cir.cancel();
 		}
 	}
 }

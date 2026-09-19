@@ -17,18 +17,19 @@ public abstract class CreeperMixin {
 
 	@Inject(method = "setSwellDir", at = @At("HEAD"))
 	private void grimdepth$randomizeFuse(int dir, CallbackInfo ci) {
-		Creeper self = (Creeper) (Object) this;
-		if (dir > 0 && this.swell == 0 && !self.level().isClientSide()) {
-			if (self.getY() < GrimdepthConfig.INSTANCE.general.undergroundYLevel && !self.level().canSeeSky(self.blockPosition())) {
-				int minFuse = GrimdepthConfig.INSTANCE.creepers.undergroundMinFuseTicks;
-				int maxFuse = GrimdepthConfig.INSTANCE.creepers.undergroundMaxFuseTicks;
-				if (maxFuse > minFuse) {
-					this.maxSwell = minFuse + self.getRandom().nextInt(maxFuse - minFuse + 1);
-				} else {
-					this.maxSwell = minFuse;
-				}
-			}
+		if (dir <= 0 || this.swell != 0) {
+			return;
 		}
+		Creeper self = (Creeper) (Object) this;
+		if (self.level().isClientSide()) {
+			return;
+		}
+		if (self.getY() >= GrimdepthConfig.INSTANCE.general.undergroundYLevel || self.level().canSeeSky(self.blockPosition())) {
+			return;
+		}
+		int minFuse = GrimdepthConfig.INSTANCE.creepers.undergroundMinFuseTicks;
+		int maxFuse = GrimdepthConfig.INSTANCE.creepers.undergroundMaxFuseTicks;
+		this.maxSwell = (maxFuse > minFuse) ? minFuse + self.getRandom().nextInt(maxFuse - minFuse + 1) : minFuse;
 	}
 
 	@Inject(method = "registerGoals", at = @At("TAIL"))

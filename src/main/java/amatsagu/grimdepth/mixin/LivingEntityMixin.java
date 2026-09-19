@@ -22,12 +22,14 @@ public abstract class LivingEntityMixin {
 
 	@Inject(method = "getVisibilityPercent", at = @At("RETURN"), cancellable = true)
 	private void grimdepth$scaleNightmareVisibility(ServerLevel level, Entity attacker, CallbackInfoReturnable<Double> cir) {
-		if (attacker == null || attacker instanceof Enemy) {
-			MobEffectInstance effect = this.getEffect(GrimdepthEffects.NIGHTMARE_AWARENESS);
-			if (effect != null) {
-				double multiplier = GrimdepthConfig.INSTANCE.nightmareAwareness.getAggroMultiplier(effect.getAmplifier());
-				cir.setReturnValue(cir.getReturnValueD() * multiplier);
-			}
+		if (attacker != null && !(attacker instanceof Enemy)) {
+			return;
 		}
+		MobEffectInstance effect = this.getEffect(GrimdepthEffects.NIGHTMARE_AWARENESS);
+		if (effect == null) {
+			return;
+		}
+		double multiplier = GrimdepthConfig.INSTANCE.nightmareAwareness.getAggroMultiplier(effect.getAmplifier());
+		cir.setReturnValue(cir.getReturnValueD() * multiplier);
 	}
 }
