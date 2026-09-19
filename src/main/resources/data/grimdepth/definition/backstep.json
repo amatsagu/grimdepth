@@ -1,6 +1,6 @@
 {
-  "experience_cost": 4,
-  "book_requirement": 25,
+  "experience_cost": 8,
+  "book_requirement": 45,
   "progress_cost_factor": {
     "base": 65,
     "per_level_above_first": 0

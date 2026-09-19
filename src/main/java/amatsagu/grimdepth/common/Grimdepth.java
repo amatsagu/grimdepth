@@ -15,6 +15,7 @@ public class Grimdepth implements ModInitializer {
 	public void onInitialize() {
 		GrimdepthConfig.load();
 		GrimdepthEffects.init();
+		GrimdepthLoot.init();
 		amatsagu.grimdepth.compat.penchant.PenchantCompat.init();
 
 		PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {

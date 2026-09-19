@@ -190,12 +190,13 @@ public class PenchantCompat {
      *
      * Values:
      * - Armor Piercer:
-     *   Sharpness fallback in Penchant: expCost=1, bookReq=0, Cost(21, 11) -> L2=32 uses, L3=43 uses
-     *   Armor Piercer (+25% progress): expCost=1, bookReq=0, Cost(26, 14) -> L2=40 uses (32 * 1.25), L3=54 uses (43 * 1.25 ~ 53.75)
+     *   Enchanting table: requires rarest level (expCost=8, bookReq=45).
+     *   Usage progression (+25% progress): Cost(26, 14) -> L2=40 uses (32 * 1.25), L3=54 uses (43 * 1.25 ~ 53.75)
      * - Backstep:
      *   Instantly max level (like Infinity), no level progression.
+     *   Enchanting table: requires rarest level (expCost=8, bookReq=45).
      *   Tagged in #penchant:enchantment/no_leveling and #penchant:enchantment/rare.
-     *   Definition: expCost=4 (Fortune rarity/anvil cost), bookReq=25, Cost(65, 0)
+     *   Cost factor: Cost(65, 0)
      */
     public static void injectDefinitions(HolderLookup.Provider registryAccess, String contextLabel) {
         if (!integrationActive) {
@@ -210,8 +211,8 @@ public class PenchantCompat {
             Class<?> defClass = Class.forName("archives.tater.penchant.PenchantmentDefinition");
             Constructor<?> defConstructor = defClass.getConstructor(int.class, int.class, Enchantment.Cost.class);
 
-            Object armorPiercerDef = defConstructor.newInstance(1, 0, new Enchantment.Cost(26, 14));
-            Object backstepDef = defConstructor.newInstance(4, 25, new Enchantment.Cost(65, 0));
+            Object armorPiercerDef = defConstructor.newInstance(8, 45, new Enchantment.Cost(26, 14));
+            Object backstepDef = defConstructor.newInstance(8, 45, new Enchantment.Cost(65, 0));
 
             Field cacheField = defClass.getDeclaredField("CACHE");
             cacheField.setAccessible(true);
@@ -220,14 +221,14 @@ public class PenchantCompat {
 
             if (armorPiercerHolder.isPresent()) {
                 cache.put(armorPiercerHolder.get(), armorPiercerDef);
-                Grimdepth.LOGGER.info("[{}] Injected Penchant definition for Armor Piercer: expCost=1, bookReq=0, Cost(26, 14)", contextLabel);
+                Grimdepth.LOGGER.info("[{}] Injected Penchant definition for Armor Piercer: expCost=8, bookReq=45, Cost(26, 14)", contextLabel);
             } else {
                 Grimdepth.LOGGER.warn("[{}] Armor Piercer enchantment holder not found in registry access.", contextLabel);
             }
 
             if (backstepHolder.isPresent()) {
                 cache.put(backstepHolder.get(), backstepDef);
-                Grimdepth.LOGGER.info("[{}] Injected Penchant definition for Backstep: expCost=4, bookReq=25, Cost(65, 0)", contextLabel);
+                Grimdepth.LOGGER.info("[{}] Injected Penchant definition for Backstep: expCost=8, bookReq=45, Cost(65, 0)", contextLabel);
             } else {
                 Grimdepth.LOGGER.warn("[{}] Backstep enchantment holder not found in registry access.", contextLabel);
             }

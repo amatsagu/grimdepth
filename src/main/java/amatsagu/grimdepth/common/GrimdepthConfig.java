@@ -27,6 +27,14 @@ public class GrimdepthConfig {
 	public BackstepConfig backstep = new BackstepConfig();
 	public LightingConfig lighting = new LightingConfig();
 	public NightmareAwarenessConfig nightmareAwareness = new NightmareAwarenessConfig();
+	public DungeonLootConfig dungeonLoot = new DungeonLootConfig();
+
+	public static class DungeonLootConfig {
+		public boolean enabled = true;
+		public int emptyWeight = 18;
+		public int armorPiercerWeight = 1;
+		public int backstepWeight = 1;
+	}
 
 	public static class NightmareAwarenessConfig {
 		public boolean enabled = true;

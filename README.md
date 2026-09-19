@@ -10,13 +10,17 @@
 - **Armor Piercer Enchantment**:
   * Can be applied to Swords, Axes, Bows, Crossbows, Tridents, and Spears/Maces.
   * Maximum level 3: ignores 10%, 20%, or 30% of target's armor on attack.
-  * Rare enchantment rarity (matching Fortune) that can be found in enchanting tables, dungeon loot, and villager trades.
+  * Rare enchantment rarity (matching Fortune weight 2).
+  * **Table-Exempt**: Impossible to roll from an enchanting table.
+  * **Acquisition**: Obtainable very rarely from villager trading (librarians) and rare dungeon chests (mob spawner dungeon, trial chambers, underwater ruins/pyramids, desert pyramids, jungle temples).
   * **Critical Hit Particle Replacement**: Replaces vanilla critical hit particles with ominous blue skull particles (`TRIAL_OMEN`) across all melee weapons (including spears) and projectiles (bows, crossbows, tridents).
   * Prioritizes blue skull particles over Sharpness enchanted hit particles so visuals are never mixed.
   * Thrown tridents and projectile arrows leave a continuous blue skull trail in flight.
 
 - **Backstep Enchantment**:
-  * Rare single-level enchantment (`max_level = 1`, matching Fortune rarity) applicable to **Bows**, **Crossbows**, and **Tridents**.
+  * Rare single-level enchantment (`max_level = 1`, matching Fortune rarity weight 2) applicable to **Bows**, **Crossbows**, and **Tridents**.
+  * **Table-Exempt**: Impossible to roll from an enchanting table.
+  * **Acquisition**: Obtainable very rarely from villager trading and rare dungeon chests (mob spawner dungeon, trial chambers, underwater ruins/pyramids, desert pyramids, jungle temples).
   * **Smooth Recoil**: When successfully releasing an arrow from a bow, firing from a crossbow, or throwing a trident, the entity (player or skeleton) is gently pushed backward by ~1 block in the opposite direction of aim/target.
   * **Safe Floor Detection**: Recoil only triggers if there is a safe, solid floor behind the shooter. Prevents accidentally stepping into lava, fire, campfires, cacti, magma, or falling off cliffs into the void.
   * **Mobility & Visuals**: Grants 5 seconds of Movement Speed with subtle, ambient beacon-style swirls (`ambient = true`) and creates a small smoke poof near the shooter's feet as they recoil.
@@ -73,11 +77,13 @@
 
 - **Optional Penchant Mod Integration (0.5.5+mc26.3+)**:
   * Optional, zero-dependency integration automatically detected when the [Penchant](https://github.com/ThePotatoArchivist/Penchant) mod is installed (`0.5.5+mc26.3` or higher).
+  * **Table Exclusion & Maximum Costs**:
+    - Excluded from standard enchanting table offerings (`#minecraft:enchantment/in_enchanting_table`).
+    - If unlocked via chiseled bookshelf in Penchant's table, requires experience and books as high as the rarest enchantments in the game: **8 experience levels** and **45 books**.
   * **Armor Piercer Usage Progression**:
     - Levels up through item usage / durability damage in the same way as Sharpness, but requires **+25% more progress** to level up.
     - Level 1 → 2: **40 durability uses** (Sharpness baseline 32 uses + 25%).
     - Level 2 → 3: **54 durability uses** (Sharpness baseline 43 uses + 25%).
-    - Table experience cost: **1**, Book requirement: **0**.
   * **Backstep Instantly Max Level**:
     - Has instantly max level upon enchanting (matching Infinity behavior) with no level progression (`#penchant:enchantment/no_leveling`).
     - Tagged as a rare enchantment (`#penchant:enchantment/rare`, matching Fortune rarity).
@@ -85,6 +91,15 @@
     - Ignores versions below `0.5.5+mc26.3`.
     - For higher versions, rigorously reflects on and validates required Penchant classes, methods, constructors, and fields.
     - Throws an explicit `IncompatiblePenchantVersionException` with a formatted error banner if any function or field is missing in newer Penchant releases.
+
+- **Rare Dungeon Chest Loot**:
+  * Directly injects rare enchanted books (`Armor Piercer` and `Backstep`) into 5 dungeon structures:
+    - **Mob Spawner Dungeons** (`minecraft:chests/simple_dungeon`)
+    - **Trial Chambers** (reward vaults, ominous vaults, supplies, corridors, intersections)
+    - **Underwater Ruins & Pyramids** (ocean ruins big/small, buried treasure)
+    - **Desert Pyramids** (`minecraft:chests/desert_pyramid`)
+    - **Jungle Temples** (`minecraft:chests/jungle_temple`)
+  * Matches Fortune rarity (~5% chance per chest).
 
 ---
 
@@ -196,6 +211,12 @@ All features, spawn chances, depth thresholds, equipment pools, and recoil setti
     "aggroRangeBonusPerLevel": 0.25,
     "maxAggroRangeBonus": 2.50,
     "maxLevel": 10
+  },
+  "dungeonLoot": {
+    "enabled": true,
+    "emptyWeight": 18,
+    "armorPiercerWeight": 1,
+    "backstepWeight": 1
   }
 }
 ```

@@ -61,14 +61,22 @@ public class PenchantCompatTest {
 
     @Test
     public void testBackstepDefinitionValues() {
-        // Backstep has max level 1, same rarity as Fortune (anvil cost 4, min cost 15, max cost 65)
-        // In Penchant fallback formula:
-        // expCost = anvilCost = 4
-        // bookRequirement = max(2 * 15 - 5, 0) = 25
-        // progressCostFactor: Cost(65, 0)
-        int expCost = 4;
-        int bookReq = Math.max(2 * 15 - 5, 0);
-        Assertions.assertEquals(4, expCost);
-        Assertions.assertEquals(25, bookReq);
+        // Enchanting table requires experience and books as high as rarest other enchant in the game:
+        // expCost = 8 (matching Infinity, Silk Touch, Wind Burst)
+        // bookRequirement = 45 (matching Mending, 15 bookshelves)
+        int expCost = 8;
+        int bookReq = 45;
+        Assertions.assertEquals(8, expCost);
+        Assertions.assertEquals(45, bookReq);
+    }
+
+    @Test
+    public void testDungeonLootTargets() {
+        Assertions.assertTrue(amatsagu.grimdepth.common.GrimdepthLoot.TARGET_DUNGEONS.contains(net.minecraft.world.level.storage.loot.BuiltInLootTables.SIMPLE_DUNGEON));
+        Assertions.assertTrue(amatsagu.grimdepth.common.GrimdepthLoot.TARGET_DUNGEONS.contains(net.minecraft.world.level.storage.loot.BuiltInLootTables.DESERT_PYRAMID));
+        Assertions.assertTrue(amatsagu.grimdepth.common.GrimdepthLoot.TARGET_DUNGEONS.contains(net.minecraft.world.level.storage.loot.BuiltInLootTables.JUNGLE_TEMPLE));
+        Assertions.assertTrue(amatsagu.grimdepth.common.GrimdepthLoot.TARGET_DUNGEONS.contains(net.minecraft.world.level.storage.loot.BuiltInLootTables.UNDERWATER_RUIN_BIG));
+        Assertions.assertTrue(amatsagu.grimdepth.common.GrimdepthLoot.TARGET_DUNGEONS.contains(net.minecraft.world.level.storage.loot.BuiltInLootTables.UNDERWATER_RUIN_SMALL));
+        Assertions.assertTrue(amatsagu.grimdepth.common.GrimdepthLoot.TARGET_DUNGEONS.contains(net.minecraft.world.level.storage.loot.BuiltInLootTables.TRIAL_CHAMBERS_REWARD_RARE));
     }
 }
