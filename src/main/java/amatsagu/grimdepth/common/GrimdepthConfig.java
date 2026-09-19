@@ -55,15 +55,24 @@ public class GrimdepthConfig {
 		));
 		public int darkLightLevelThreshold = 0;
 		public int durationTicks = 600;
-		public double aggroRangeBonusPerLevel = 0.25;
-		public double maxAggroRangeBonus = 2.50;
 		public int maxLevel = 10;
-
-		public double getAggroMultiplier(int amplifier) {
-			int level = Math.max(1, amplifier + 1);
-			double bonus = Math.min(this.maxAggroRangeBonus, level * this.aggroRangeBonusPerLevel);
-			return 1.0 + bonus;
-		}
+		public int minSpawnIntervalTicks = 100;
+		public int maxSpawnIntervalTicks = 200;
+		public double minSpawnDistance = 12.0;
+		public double maxSpawnDistance = 24.0;
+		public List<String> level1Monsters = new ArrayList<>(List.of(
+				"minecraft:zombie",
+				"minecraft:skeleton",
+				"minecraft:spider"
+		));
+		public List<String> level2Monsters = new ArrayList<>(List.of(
+				"minecraft:creeper",
+				"minecraft:husk"
+		));
+		public List<String> level3Monsters = new ArrayList<>(List.of(
+				"minecraft:witch",
+				"minecraft:cave_spider"
+		));
 	}
 
 	public static class LightingConfig {
@@ -172,6 +181,15 @@ public class GrimdepthConfig {
 			if (INSTANCE.backstep == null) INSTANCE.backstep = new BackstepConfig();
 			if (INSTANCE.lighting == null) INSTANCE.lighting = new LightingConfig();
 			if (INSTANCE.nightmareAwareness == null) INSTANCE.nightmareAwareness = new NightmareAwarenessConfig();
+			if (INSTANCE.nightmareAwareness.level1Monsters == null) {
+				INSTANCE.nightmareAwareness.level1Monsters = new ArrayList<>(List.of("minecraft:zombie", "minecraft:skeleton", "minecraft:spider"));
+			}
+			if (INSTANCE.nightmareAwareness.level2Monsters == null) {
+				INSTANCE.nightmareAwareness.level2Monsters = new ArrayList<>(List.of("minecraft:creeper", "minecraft:husk"));
+			}
+			if (INSTANCE.nightmareAwareness.level3Monsters == null) {
+				INSTANCE.nightmareAwareness.level3Monsters = new ArrayList<>(List.of("minecraft:witch", "minecraft:cave_spider"));
+			}
 			if (INSTANCE.dungeonLoot == null) INSTANCE.dungeonLoot = new DungeonLootConfig();
 		} catch (Exception e) {
 			save();

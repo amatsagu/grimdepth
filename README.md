@@ -69,14 +69,20 @@
 
 - **Nightmare Awareness Status Effect**:
   * **New Harmful Mob Effect**: Signalized with ill omen / raid omen red skulls (`RAID_OMEN` particles and sound).
-  * **Sensory Aggro Scaling**: Increases hostile monsters' detection and follow distance by **+25% per level** (up to **+250%** maximum at Level 10).
+  * **Periodic Dark Mob Ambush**: Periodically summons hostile monsters from nearby darkness every 5–10 seconds (averaging 3–6 monsters per 30-second duration).
+  * **Distance & Natural Darkness Requirements**: Ambush monsters manifest 12–24 blocks away only in natural darkness (block light $\le 0$, solid floor), preventing mobs from spawning directly in the player's face or inside well-lit safe zones.
+  * **Instant Aggression**: Manifested monsters immediately acquire line of sight and aggressive targeting on the afflicted player with extended follow range.
+  * **Level-Scaled Monster Pools**:
+    - **Level 1**: Zombie, Skeleton, Spider.
+    - **Level 2**: Level 1 pool + Creeper, Husk.
+    - **Level 3+**: Level 2 pool + Witch, Cave Spider.
   * **Depth Ore Mining Triggers**: Triggered when mining naturally generated deepslate ore variants deep underground ($Y \le 0$).
   * **Anti-Exploit Natural Ore Tracking**: Tracks player-placed ores across world saves so player-placed blocks never grant the effect.
   * **Dynamic Risk Chances**:
     - Default deepslate ore break chance: **10%**.
     - In darkness (block light $\le 0$, monster spawn condition): increases to **35%**.
     - High-risk ores (Deepslate Diamond & Emerald Ores): **75%** chance.
-  * **Stacking & Timer Reset**: Each trigger sets or refreshes the remaining duration to **30 seconds** (600 ticks). Receiving the effect again while active refreshes duration and increments the effect level by 1 (capped at Level 10).
+  * **Stacking & Timer Reset**: Each trigger sets or refreshes the remaining duration to **30 seconds** (600 ticks). Receiving the effect again while active refreshes duration and increments the effect level by 1 (capped at Level 10). All spawn intervals, distances, and level mob pools are fully configurable.
 
 - **Optional Penchant Mod Integration (0.5.5+mc26.3+)**:
   * Optional, zero-dependency integration automatically detected when the [Penchant](https://github.com/ThePotatoArchivist/Penchant) mod is installed (`0.5.5+mc26.3` or higher).
@@ -211,9 +217,24 @@ All features, spawn chances, depth thresholds, equipment pools, and recoil setti
     ],
     "darkLightLevelThreshold": 0,
     "durationTicks": 600,
-    "aggroRangeBonusPerLevel": 0.25,
-    "maxAggroRangeBonus": 2.50,
-    "maxLevel": 10
+    "maxLevel": 10,
+    "minSpawnIntervalTicks": 100,
+    "maxSpawnIntervalTicks": 200,
+    "minSpawnDistance": 12.0,
+    "maxSpawnDistance": 24.0,
+    "level1Monsters": [
+      "minecraft:zombie",
+      "minecraft:skeleton",
+      "minecraft:spider"
+    ],
+    "level2Monsters": [
+      "minecraft:creeper",
+      "minecraft:husk"
+    ],
+    "level3Monsters": [
+      "minecraft:witch",
+      "minecraft:cave_spider"
+    ]
   },
   "dungeonLoot": {
     "emptyWeight": 18,

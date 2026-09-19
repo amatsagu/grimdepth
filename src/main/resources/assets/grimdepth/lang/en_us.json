@@ -8,6 +8,6 @@
   "enchantment.grimdepth.backstep.description": "Gently recoils the player backward upon firing projectiles and grants a burst of speed.",
   "tag.item.grimdepth.enchantable.backstep": "Backstep Enchantable",
   "effect.grimdepth.nightmare_awareness": "Nightmare Awareness",
-  "effect.grimdepth.nightmare_awareness.desc": "Makes nearby monsters heighten their senses. Players with this effect can be detected from greater distance.",
-  "effect.grimdepth.nightmare_awareness.description": "Makes nearby monsters heighten their senses. Players with this effect can be detected from greater distance."
+  "effect.grimdepth.nightmare_awareness.desc": "Summons dark subterranean ambushes. Hostile monsters periodically manifest in nearby darkness with immediate aggression toward the player.",
+  "effect.grimdepth.nightmare_awareness.description": "Summons dark subterranean ambushes. Hostile monsters periodically manifest in nearby darkness with immediate aggression toward the player."
 }

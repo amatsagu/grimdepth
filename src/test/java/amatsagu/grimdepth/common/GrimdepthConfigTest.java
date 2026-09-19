@@ -34,6 +34,17 @@ public class GrimdepthConfigTest {
         Assertions.assertNotNull(config.backstep);
         Assertions.assertNotNull(config.lighting);
         Assertions.assertNotNull(config.nightmareAwareness);
+        Assertions.assertEquals(100, config.nightmareAwareness.minSpawnIntervalTicks);
+        Assertions.assertEquals(200, config.nightmareAwareness.maxSpawnIntervalTicks);
+        Assertions.assertEquals(12.0, config.nightmareAwareness.minSpawnDistance);
+        Assertions.assertEquals(24.0, config.nightmareAwareness.maxSpawnDistance);
+        Assertions.assertTrue(config.nightmareAwareness.level1Monsters.contains("minecraft:zombie"));
+        Assertions.assertTrue(config.nightmareAwareness.level1Monsters.contains("minecraft:skeleton"));
+        Assertions.assertTrue(config.nightmareAwareness.level1Monsters.contains("minecraft:spider"));
+        Assertions.assertTrue(config.nightmareAwareness.level2Monsters.contains("minecraft:creeper"));
+        Assertions.assertTrue(config.nightmareAwareness.level2Monsters.contains("minecraft:husk"));
+        Assertions.assertTrue(config.nightmareAwareness.level3Monsters.contains("minecraft:witch"));
+        Assertions.assertTrue(config.nightmareAwareness.level3Monsters.contains("minecraft:cave_spider"));
         Assertions.assertNotNull(config.dungeonLoot);
 
         com.google.gson.Gson gson = new com.google.gson.Gson();
@@ -46,5 +57,28 @@ public class GrimdepthConfigTest {
         Assertions.assertEquals(config.zombies.advancedTools, deserialized.zombies.advancedTools);
         Assertions.assertEquals(config.lighting.defaultGamma, deserialized.lighting.defaultGamma);
         Assertions.assertEquals(config.backstep.pushDistanceBlocks, deserialized.backstep.pushDistanceBlocks);
+        Assertions.assertEquals(config.nightmareAwareness.minSpawnIntervalTicks, deserialized.nightmareAwareness.minSpawnIntervalTicks);
+        Assertions.assertEquals(config.nightmareAwareness.level1Monsters, deserialized.nightmareAwareness.level1Monsters);
+    }
+
+    @Test
+    public void testNightmareAwarenessMonsterPools() {
+        GrimdepthConfig.NightmareAwarenessConfig cfg = new GrimdepthConfig.NightmareAwarenessConfig();
+
+        List<String> poolLvl1 = NightmareAwarenessHelper.getMonsterPool(cfg, 0);
+        Assertions.assertEquals(3, poolLvl1.size());
+        Assertions.assertTrue(poolLvl1.contains("minecraft:zombie"));
+        Assertions.assertTrue(poolLvl1.contains("minecraft:skeleton"));
+        Assertions.assertTrue(poolLvl1.contains("minecraft:spider"));
+
+        List<String> poolLvl2 = NightmareAwarenessHelper.getMonsterPool(cfg, 1);
+        Assertions.assertEquals(5, poolLvl2.size());
+        Assertions.assertTrue(poolLvl2.contains("minecraft:creeper"));
+        Assertions.assertTrue(poolLvl2.contains("minecraft:husk"));
+
+        List<String> poolLvl3 = NightmareAwarenessHelper.getMonsterPool(cfg, 2);
+        Assertions.assertEquals(7, poolLvl3.size());
+        Assertions.assertTrue(poolLvl3.contains("minecraft:witch"));
+        Assertions.assertTrue(poolLvl3.contains("minecraft:cave_spider"));
     }
 }
