@@ -13,6 +13,7 @@
     "base": 15,
     "per_level_above_first": 0
   },
+  "primary_items": "#grimdepth:enchantable/backstep",
   "slots": [
     "mainhand",
     "offhand"

@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo.png" alt="Grimdepth Logo" width="96" />
+  <img src="src/main/resources/assets/grimdepth/icon.png" alt="Grimdepth Logo" width="96" />
   <h1>
     <sub>Grimdepth</sub>
   </h1>

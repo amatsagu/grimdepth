@@ -1,9 +1,13 @@
 {
   "enchantment.grimdepth.armor_piercer": "Armor Piercer",
   "enchantment.grimdepth.armor_piercer.desc": "Bypasses a portion of the target's armor upon hit.",
+  "enchantment.grimdepth.armor_piercer.description": "Bypasses a portion of the target's armor upon hit.",
   "tag.item.grimdepth.enchantable.armor_piercer": "Armor Piercer Enchantable",
   "enchantment.grimdepth.backstep": "Backstep",
   "enchantment.grimdepth.backstep.desc": "Gently recoils the player backward upon firing projectiles and grants a burst of speed.",
+  "enchantment.grimdepth.backstep.description": "Gently recoils the player backward upon firing projectiles and grants a burst of speed.",
   "tag.item.grimdepth.enchantable.backstep": "Backstep Enchantable",
-  "effect.grimdepth.nightmare_awareness": "Nightmare Awareness"
+  "effect.grimdepth.nightmare_awareness": "Nightmare Awareness",
+  "effect.grimdepth.nightmare_awareness.desc": "Makes nearby monsters heighten their senses. Players with this effect can be detected from greater distance.",
+  "effect.grimdepth.nightmare_awareness.description": "Makes nearby monsters heighten their senses. Players with this effect can be detected from greater distance."
 }
