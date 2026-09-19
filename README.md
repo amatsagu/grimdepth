@@ -11,7 +11,7 @@ This mod was originally a datapack that I've created to slightly boost monsters 
 
 **Grimdepth** works mostly at `Y < 0` in overworld and attempts to blend well with Vanilla. It only adds 2 new enchants, everything else is still from base game. Almost everything can be configured in `grimdepth.json` that is generated in game files after first launch.
 
-> [!INFO]
+> [!Important]
 > Pieces of this mod were created with help of artificial intelligence, mostly in places where I doubted Minecraft Devs sanity when trying to work out their awful code architecture.
 
 ## List of features
