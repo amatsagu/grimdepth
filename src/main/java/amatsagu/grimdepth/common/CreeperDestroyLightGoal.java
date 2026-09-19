@@ -16,6 +16,7 @@ public class CreeperDestroyLightGoal extends MoveToBlockGoal {
 				GrimdepthConfig.INSTANCE.creepers.lightSearchHorizontalRange,
 				GrimdepthConfig.INSTANCE.creepers.lightSearchVerticalRange);
 		this.creeper = creeper;
+		this.nextStartTick = 40 + creeper.getRandom().nextInt(40);
 	}
 
 	@Override
@@ -82,7 +83,7 @@ public class CreeperDestroyLightGoal extends MoveToBlockGoal {
 	@Override
 	protected boolean isValidTarget(LevelReader level, BlockPos pos) {
 		BlockState state = level.getBlockState(pos);
-		if (!state.is(GrimdepthTags.CREEPER_LIGHT_SOURCES)) {
+		if (state.isAir() || !state.is(GrimdepthTags.CREEPER_LIGHT_SOURCES)) {
 			return false;
 		}
 		if (state.getBlock() instanceof RedstoneLampBlock) {

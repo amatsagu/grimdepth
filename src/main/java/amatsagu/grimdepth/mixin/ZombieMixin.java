@@ -20,7 +20,7 @@ public abstract class ZombieMixin {
 
 	@Inject(method = "finalizeSpawn", at = @At("TAIL"))
 	private void grimdepth$onFinalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, SpawnGroupData spawnGroupData, CallbackInfoReturnable<SpawnGroupData> cir) {
-		GrimdepthSpawner.applyZombieSpawn((Zombie) (Object) this, level);
+		GrimdepthSpawner.applyZombieSpawn((Zombie) (Object) this, level, spawnReason);
 	}
 
 	@Inject(method = "tick", at = @At("TAIL"))

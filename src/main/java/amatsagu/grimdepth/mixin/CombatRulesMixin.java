@@ -22,10 +22,10 @@ public abstract class CombatRulesMixin {
 			return armor;
 		}
 		ItemStack weapon = damageSource.getWeaponItem();
-		if (weapon == null || weapon.isEmpty() || !(entity.level() instanceof ServerLevel serverLevel)) {
+		if (weapon == null || weapon.isEmpty()) {
 			return armor;
 		}
-		int level = GrimdepthEnchantments.getArmorPiercerLevel(serverLevel, weapon);
+		int level = GrimdepthEnchantments.getArmorPiercerLevel(weapon);
 		if (level <= 0) {
 			return armor;
 		}

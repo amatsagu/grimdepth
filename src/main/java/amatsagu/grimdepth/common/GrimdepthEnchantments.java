@@ -1,15 +1,14 @@
 package amatsagu.grimdepth.common;
 
 import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.Level;
-
-import java.util.Optional;
 
 public final class GrimdepthEnchantments {
 	public static final ResourceKey<Enchantment> ARMOR_PIERCER = ResourceKey.create(
@@ -22,27 +21,49 @@ public final class GrimdepthEnchantments {
 			Identifier.fromNamespaceAndPath("grimdepth", "backstep")
 	);
 
+	public static int getArmorPiercerLevel(ItemStack stack) {
+		if (stack == null || stack.isEmpty()) {
+			return 0;
+		}
+		ItemEnchantments enchantments = stack.get(DataComponents.ENCHANTMENTS);
+		if (enchantments == null || enchantments.isEmpty()) {
+			enchantments = stack.get(DataComponents.STORED_ENCHANTMENTS);
+			if (enchantments == null || enchantments.isEmpty()) {
+				return 0;
+			}
+		}
+		for (Holder<Enchantment> holder : enchantments.keySet()) {
+			if (holder.is(ARMOR_PIERCER)) {
+				return enchantments.getLevel(holder);
+			}
+		}
+		return 0;
+	}
+
 	public static int getArmorPiercerLevel(Level level, ItemStack stack) {
-		if (stack == null || stack.isEmpty() || level == null) {
+		return getArmorPiercerLevel(stack);
+	}
+
+	public static int getBackstepLevel(ItemStack stack) {
+		if (stack == null || stack.isEmpty()) {
 			return 0;
 		}
-		var lookup = level.registryAccess().lookup(Registries.ENCHANTMENT);
-		if (lookup.isEmpty()) {
-			return 0;
+		ItemEnchantments enchantments = stack.get(DataComponents.ENCHANTMENTS);
+		if (enchantments == null || enchantments.isEmpty()) {
+			enchantments = stack.get(DataComponents.STORED_ENCHANTMENTS);
+			if (enchantments == null || enchantments.isEmpty()) {
+				return 0;
+			}
 		}
-		Optional<Holder.Reference<Enchantment>> opt = lookup.get().get(ARMOR_PIERCER);
-		return opt.map(holder -> EnchantmentHelper.getItemEnchantmentLevel(holder, stack)).orElse(0);
+		for (Holder<Enchantment> holder : enchantments.keySet()) {
+			if (holder.is(BACKSTEP)) {
+				return enchantments.getLevel(holder);
+			}
+		}
+		return 0;
 	}
 
 	public static int getBackstepLevel(Level level, ItemStack stack) {
-		if (stack == null || stack.isEmpty() || level == null) {
-			return 0;
-		}
-		var lookup = level.registryAccess().lookup(Registries.ENCHANTMENT);
-		if (lookup.isEmpty()) {
-			return 0;
-		}
-		Optional<Holder.Reference<Enchantment>> opt = lookup.get().get(BACKSTEP);
-		return opt.map(holder -> EnchantmentHelper.getItemEnchantmentLevel(holder, stack)).orElse(0);
+		return getBackstepLevel(stack);
 	}
 }

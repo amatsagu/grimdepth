@@ -79,9 +79,6 @@ public final class BackstepHelper {
 		shooter.syncVelocity = true;
 		shooter.needsSync = true;
 		level.getChunkSource().sendToTrackingPlayersAndSelf(shooter, new ClientboundSetEntityMotionPacket(shooter));
-		if (shooter instanceof ServerPlayer serverPlayer) {
-			serverPlayer.connection.send(new ClientboundSetEntityMotionPacket(serverPlayer));
-		}
 
 		// Grant 5s of movement speed effect with barely visible (ambient) particles
 		shooter.addEffect(new MobEffectInstance(
@@ -125,6 +122,9 @@ public final class BackstepHelper {
 			double sx = px + dirX * d;
 			double sz = pz + dirZ * d;
 			BlockPos samplePos = BlockPos.containing(sx, py, sz);
+			if (!level.isLoaded(samplePos)) {
+				return false;
+			}
 
 			// Check body and head space for deadly hazards
 			if (isHazard(level.getBlockState(samplePos), level.getFluidState(samplePos))) {

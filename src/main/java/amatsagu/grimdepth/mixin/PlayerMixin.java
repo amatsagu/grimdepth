@@ -30,19 +30,30 @@ public abstract class PlayerMixin {
 			player.crit(target);
 			return;
 		}
-		if (!(player.level() instanceof ServerLevel serverLevel)) {
+		int count = Math.max(1, 1 + apLevel);
+		if (player.level().isClientSide()) {
+			for (int i = 0; i < count; i++) {
+				player.level().addParticle(
+						ParticleTypes.TRIAL_OMEN,
+						target.getX() + (player.getRandom().nextDouble() - 0.5) * target.getBbWidth(),
+						target.getY() + target.getBbHeight() * 0.5 + (player.getRandom().nextDouble() - 0.5) * target.getBbHeight() * 0.5,
+						target.getZ() + (player.getRandom().nextDouble() - 0.5) * target.getBbWidth(),
+						0.0, 0.02, 0.0
+				);
+			}
 			return;
 		}
-		int count = Math.max(1, 1 + apLevel);
-		serverLevel.sendParticles(
-				ParticleTypes.TRIAL_OMEN,
-				target.getX(),
-				target.getY() + target.getBbHeight() * 0.5,
-				target.getZ(),
-				count,
-				0.25, 0.25, 0.25,
-				0.02
-		);
+		if (player.level() instanceof ServerLevel serverLevel) {
+			serverLevel.sendParticles(
+					ParticleTypes.TRIAL_OMEN,
+					target.getX(),
+					target.getY() + target.getBbHeight() * 0.5,
+					target.getZ(),
+					count,
+					0.25, 0.25, 0.25,
+					0.02
+			);
+		}
 	}
 
 	@Redirect(method = "attackVisualEffects", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Player;magicCrit(Lnet/minecraft/world/entity/Entity;)V"))
@@ -54,9 +65,9 @@ public abstract class PlayerMixin {
 	}
 
 	private static int getArmorPiercerLevel(Player player) {
-		int level = GrimdepthEnchantments.getArmorPiercerLevel(player.level(), player.getMainHandItem());
+		int level = GrimdepthEnchantments.getArmorPiercerLevel(player.getMainHandItem());
 		if (level == 0 && !player.getOffhandItem().isEmpty()) {
-			return GrimdepthEnchantments.getArmorPiercerLevel(player.level(), player.getOffhandItem());
+			return GrimdepthEnchantments.getArmorPiercerLevel(player.getOffhandItem());
 		}
 		return level;
 	}

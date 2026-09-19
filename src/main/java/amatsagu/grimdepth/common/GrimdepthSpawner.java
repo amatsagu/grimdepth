@@ -96,6 +96,10 @@ public final class GrimdepthSpawner {
 	}
 
 	public static void applyZombieSpawn(Zombie zombie, ServerLevelAccessor level) {
+		applyZombieSpawn(zombie, level, EntitySpawnReason.NATURAL);
+	}
+
+	public static void applyZombieSpawn(Zombie zombie, ServerLevelAccessor level, EntitySpawnReason spawnReason) {
 		BlockPos pos = zombie.blockPosition();
 		if (!isUnderground(level, pos)) {
 			return;
@@ -104,7 +108,7 @@ public final class GrimdepthSpawner {
 		RandomSource random = zombie.getRandom();
 		boolean isDeepslate = pos.getY() <= GrimdepthConfig.INSTANCE.general.deepslateYLevel;
 
-		if (isDeepslate) {
+		if (isDeepslate && spawnReason != EntitySpawnReason.REINFORCEMENT) {
 			GrimdepthConfig.LeaderConfig leaderCfg = GrimdepthConfig.INSTANCE.zombies.leaders;
 			if (random.nextDouble() < leaderCfg.deepslateLeaderChance) {
 				AABB checkArea = zombie.getBoundingBox().inflate(leaderCfg.nearbyLeaderCheckRadius);
