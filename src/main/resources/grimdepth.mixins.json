@@ -10,6 +10,7 @@
     "CreeperMixin",
     "PlayerMixin",
     "ProjectileWeaponItemMixin",
+    "ServerGamePacketListenerImplMixin",
     "SpiderSpawnMixin",
     "SwellGoalMixin",
     "TridentItemMixin",
