@@ -231,17 +231,7 @@ public final class GrimdepthSpawner {
 		if (spider.getRandom().nextDouble() >= GrimdepthConfig.INSTANCE.spiders.deepslateCaveSpiderChance) {
 			return false;
 		}
-		if (!(level instanceof ServerLevel serverLevel)) {
-			return false;
-		}
-		CaveSpider caveSpider = EntityTypes.CAVE_SPIDER.create(serverLevel, EntitySpawnReason.NATURAL);
-		if (caveSpider == null) {
-			return false;
-		}
-		caveSpider.copyPosition(spider);
-		caveSpider.finalizeSpawn(serverLevel, level.getCurrentDifficultyAt(pos), EntitySpawnReason.NATURAL, null);
-		serverLevel.addFreshEntity(caveSpider);
-		spider.discard();
+		spider.addTag("grimdepth:replace_with_cave_spider");
 		return true;
 	}
 
@@ -253,17 +243,7 @@ public final class GrimdepthSpawner {
 		if (bat.getRandom().nextDouble() >= GrimdepthConfig.INSTANCE.bats.deepslateVexChance) {
 			return false;
 		}
-		if (!(level instanceof ServerLevel serverLevel)) {
-			return false;
-		}
-		Vex vex = EntityTypes.VEX.create(serverLevel, EntitySpawnReason.NATURAL);
-		if (vex == null) {
-			return false;
-		}
-		vex.copyPosition(bat);
-		vex.finalizeSpawn(serverLevel, level.getCurrentDifficultyAt(pos), EntitySpawnReason.NATURAL, null);
-		serverLevel.addFreshEntity(vex);
-		bat.discard();
+		bat.addTag("grimdepth:replace_with_vex");
 		return true;
 	}
 

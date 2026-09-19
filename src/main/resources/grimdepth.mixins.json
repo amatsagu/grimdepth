@@ -12,6 +12,7 @@
     "MobMixin",
     "PlayerMixin",
     "ProjectileWeaponItemMixin",
+    "ServerLevelMixin",
     "SpiderSpawnMixin",
     "SwellGoalMixin",
     "TridentItemMixin",

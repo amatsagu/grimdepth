@@ -1,3 +1,5 @@
 classTweaker v2 official
 accessible field net/minecraft/world/entity/monster/Creeper maxSwell I
 accessible field net/minecraft/world/entity/monster/Creeper swell I
+accessible field net/minecraft/world/entity/projectile/arrow/AbstractArrow ID_FLAGS Lnet/minecraft/network/syncher/EntityDataAccessor;
+accessible method net/minecraft/world/entity/projectile/arrow/AbstractArrow setFlag (IZ)V

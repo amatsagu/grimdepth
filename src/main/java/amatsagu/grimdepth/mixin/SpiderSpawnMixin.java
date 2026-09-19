@@ -14,10 +14,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(Spider.class)
 public abstract class SpiderSpawnMixin {
 
-	@Inject(method = "finalizeSpawn", at = @At("TAIL"), cancellable = true)
+	@Inject(method = "finalizeSpawn", at = @At("TAIL"))
 	private void grimdepth$onFinalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason spawnReason, SpawnGroupData spawnGroupData, CallbackInfoReturnable<SpawnGroupData> cir) {
-		if (GrimdepthSpawner.applySpiderSpawn((Spider) (Object) this, level)) {
-			cir.cancel();
-		}
+		GrimdepthSpawner.applySpiderSpawn((Spider) (Object) this, level);
 	}
 }
