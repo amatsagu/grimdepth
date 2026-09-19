@@ -20,19 +20,24 @@ public class Grimdepth implements ModInitializer {
 
 		PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
 			NightmareAwarenessHelper.onBlockMined(level, player, pos, state);
+			SpiderCobwebHelper.onBlockBroken(level, player, pos, state);
 		});
 
 		ServerLifecycleEvents.SERVER_STARTED.register(server -> {
 			NightmareAwarenessHelper.load(server.getWorldPath(LevelResource.ROOT));
+			SpiderCobwebHelper.load(server.getWorldPath(LevelResource.ROOT));
 		});
 
 		ServerLifecycleEvents.BEFORE_SAVE.register((server, flush, force) -> {
 			NightmareAwarenessHelper.save(server.getWorldPath(LevelResource.ROOT));
+			SpiderCobwebHelper.save(server.getWorldPath(LevelResource.ROOT));
 		});
 
 		ServerLifecycleEvents.SERVER_STOPPING.register(server -> {
 			NightmareAwarenessHelper.save(server.getWorldPath(LevelResource.ROOT));
 			NightmareAwarenessHelper.clear();
+			SpiderCobwebHelper.save(server.getWorldPath(LevelResource.ROOT));
+			SpiderCobwebHelper.clear();
 		});
 
 		LOGGER.info("Grimdepth initialized successfully!");

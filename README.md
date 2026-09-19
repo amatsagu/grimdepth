@@ -49,10 +49,12 @@
   * **Light Hunters**: Deep underground creepers search out and detonate near light sources (torches, soul torches, lanterns, soul lanterns, glowstone, lit redstone lamps, lit copper bulbs).
   * Player combat always takes priority over light hunting. When hunting light, creepers navigate to the light source, halt within 3 blocks, and detonate cleanly.
 
-- **Deepslate Replacements**:
-  * From Deepslate level ($Y \le 0$), Spiders have a 10% chance to spawn as **Cave Spiders**.
-  * From Deepslate level ($Y \le 0$), Bats have a 10% chance to spawn as **Vexes**.
+- **Deepslate Spiders & Weaving Cobwebs**:
+  * All Spiders spawning at or below Deepslate level ($Y \le 0$) are **25% smaller** (scale `0.75`).
+  * On death, they trigger the Vanilla **Weaving** status effect, randomly spawning cobweb blocks around their death point.
+  * **Cobweb Ambush**: When a player breaks one of these naturally spawned cobwebs at deepslate depth ($Y \le 0$), there is a **10% chance** for another small spider to emerge nearby and immediately aggro on the player.
 
+---
 - **Atmospheric Lighting & Night Vision Overhaul**:
   * **Darker Ambience (33.3% Darker Overall)**: The world lightmap is recalibrated with a $\frac{2}{3}$ scaling factor, lowering maximum brightness and deepening shadows for an atmospheric cave exploration experience.
   * **New 75% Default Brightness**: Game settings brightness default is set to **75%** (labeled as "Default"), which renders **identically** to standard Vanilla 50% ($0.75 \times \frac{2}{3} = 0.50$).
@@ -185,10 +187,8 @@ All features, spawn chances, depth thresholds, equipment pools, and recoil setti
     "lightSearchVerticalRange": 4
   },
   "spiders": {
-    "deepslateCaveSpiderChance": 0.10
-  },
-  "bats": {
-    "deepslateVexChance": 0.10
+    "deepslateScale": 0.75,
+    "breakCobwebSpiderSpawnChance": 0.10
   },
   "lighting": {
     "defaultGamma": 0.75,

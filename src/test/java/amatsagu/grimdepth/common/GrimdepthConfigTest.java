@@ -29,7 +29,8 @@ public class GrimdepthConfigTest {
         Assertions.assertNotNull(config.zombies);
         Assertions.assertNotNull(config.creepers);
         Assertions.assertNotNull(config.spiders);
-        Assertions.assertNotNull(config.bats);
+        Assertions.assertEquals(0.75, config.spiders.deepslateScale);
+        Assertions.assertEquals(0.10, config.spiders.breakCobwebSpiderSpawnChance);
         Assertions.assertNotNull(config.backstep);
         Assertions.assertNotNull(config.lighting);
         Assertions.assertNotNull(config.nightmareAwareness);

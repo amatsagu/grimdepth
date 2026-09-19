@@ -33,7 +33,6 @@ public class GrimdepthConfig {
 	public ZombiesConfig zombies = new ZombiesConfig();
 	public CreepersConfig creepers = new CreepersConfig();
 	public SpidersConfig spiders = new SpidersConfig();
-	public BatsConfig bats = new BatsConfig();
 	public BackstepConfig backstep = new BackstepConfig();
 	public LightingConfig lighting = new LightingConfig();
 	public NightmareAwarenessConfig nightmareAwareness = new NightmareAwarenessConfig();
@@ -137,11 +136,8 @@ public class GrimdepthConfig {
 	}
 
 	public static class SpidersConfig {
-		public double deepslateCaveSpiderChance = 0.10;
-	}
-
-	public static class BatsConfig {
-		public double deepslateVexChance = 0.10;
+		public double deepslateScale = 0.75;
+		public double breakCobwebSpiderSpawnChance = 0.10;
 	}
 
 	public static class BackstepConfig {
@@ -173,7 +169,6 @@ public class GrimdepthConfig {
 			if (INSTANCE.zombies == null) INSTANCE.zombies = new ZombiesConfig();
 			if (INSTANCE.creepers == null) INSTANCE.creepers = new CreepersConfig();
 			if (INSTANCE.spiders == null) INSTANCE.spiders = new SpidersConfig();
-			if (INSTANCE.bats == null) INSTANCE.bats = new BatsConfig();
 			if (INSTANCE.backstep == null) INSTANCE.backstep = new BackstepConfig();
 			if (INSTANCE.lighting == null) INSTANCE.lighting = new LightingConfig();
 			if (INSTANCE.nightmareAwareness == null) INSTANCE.nightmareAwareness = new NightmareAwarenessConfig();

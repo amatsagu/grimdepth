@@ -9,13 +9,12 @@
     "CombatRulesMixin",
     "CreeperMixin",
     "LivingEntityMixin",
-    "MobMixin",
     "PlayerMixin",
     "ProjectileWeaponItemMixin",
-    "ServerLevelMixin",
     "SpiderSpawnMixin",
     "SwellGoalMixin",
     "TridentItemMixin",
+    "WeavingMobEffectMixin",
     "ZombieMixin"
   ],
   "client": [

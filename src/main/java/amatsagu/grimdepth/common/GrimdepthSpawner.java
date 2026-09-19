@@ -16,10 +16,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ambient.Bat;
-import net.minecraft.world.entity.monster.Vex;
 import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
-import net.minecraft.world.entity.monster.spider.CaveSpider;
 import net.minecraft.world.entity.monster.spider.Spider;
 import net.minecraft.world.entity.monster.zombie.Zombie;
 import net.minecraft.world.item.Item;
@@ -220,31 +217,21 @@ public final class GrimdepthSpawner {
 		}
 	}
 
-	public static boolean applySpiderSpawn(Spider spider, ServerLevelAccessor level) {
-		if (spider.getClass() != Spider.class) {
-			return false;
-		}
+	public static void applySpiderSpawn(Spider spider, ServerLevelAccessor level) {
 		BlockPos pos = spider.blockPosition();
 		if (!isUnderground(level, pos) || pos.getY() > GrimdepthConfig.INSTANCE.general.deepslateYLevel) {
-			return false;
+			return;
 		}
-		if (spider.getRandom().nextDouble() >= GrimdepthConfig.INSTANCE.spiders.deepslateCaveSpiderChance) {
-			return false;
-		}
-		spider.addTag("grimdepth:replace_with_cave_spider");
-		return true;
-	}
 
-	public static boolean applyBatSpawn(Bat bat, ServerLevelAccessor level) {
-		BlockPos pos = bat.blockPosition();
-		if (!isUnderground(level, pos) || pos.getY() > GrimdepthConfig.INSTANCE.general.deepslateYLevel) {
-			return false;
+		// All spiders in deepslate are 25% smaller
+		AttributeInstance scaleAttr = spider.getAttribute(Attributes.SCALE);
+		if (scaleAttr != null) {
+			scaleAttr.setBaseValue(GrimdepthConfig.INSTANCE.spiders.deepslateScale);
 		}
-		if (bat.getRandom().nextDouble() >= GrimdepthConfig.INSTANCE.bats.deepslateVexChance) {
-			return false;
-		}
-		bat.addTag("grimdepth:replace_with_vex");
-		return true;
+
+		// When they die, trigger the Weaving status effect to spawn cobwebs around death point
+		spider.addEffect(new MobEffectInstance(MobEffects.WEAVING, -1, 0, false, false));
+		spider.addTag("grimdepth:deepslate_spider");
 	}
 
 	private static Item getItemFromPool(List<String> pool, String keyword) {

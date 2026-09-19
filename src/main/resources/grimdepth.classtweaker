@@ -3,3 +3,5 @@ accessible field net/minecraft/world/entity/monster/Creeper maxSwell I
 accessible field net/minecraft/world/entity/monster/Creeper swell I
 accessible field net/minecraft/world/entity/projectile/arrow/AbstractArrow ID_FLAGS Lnet/minecraft/network/syncher/EntityDataAccessor;
 accessible method net/minecraft/world/entity/projectile/arrow/AbstractArrow setFlag (IZ)V
+accessible class net/minecraft/world/effect/WeavingMobEffect
+accessible method net/minecraft/world/effect/WeavingMobEffect spawnCobwebsRandomlyAround (Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/util/RandomSource;Lnet/minecraft/core/BlockPos;)V
