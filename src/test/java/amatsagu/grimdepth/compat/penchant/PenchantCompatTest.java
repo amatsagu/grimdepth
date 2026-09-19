@@ -39,7 +39,7 @@ public class PenchantCompatTest {
         int expectedL2 = (int) Math.round(sharpnessL2 * 1.25); // 40
         int expectedL3 = (int) Math.round(sharpnessL3 * 1.25); // 54
 
-        // Our formula: base = 26, per_level_above_first = 14
+        // formula: base = 26, per_level_above_first = 14
         int apBase = 26;
         int apPerLevel = 14;
         int apL2 = apBase + apPerLevel * (2 - 1);
@@ -52,18 +52,16 @@ public class PenchantCompatTest {
     @Test
     public void testIncompatibleVersionVerificationFailsOnMissingClass() throws VersionParsingException {
         Version higherVersion = Version.parse("0.6.0+mc26.3");
-        // When Penchant is not on classpath, verifyCompatibility throws IncompatiblePenchantVersionException
+
         IncompatiblePenchantVersionException ex = Assertions.assertThrows(IncompatiblePenchantVersionException.class, () -> {
             PenchantCompat.verifyCompatibility(higherVersion, true);
         });
+
         Assertions.assertTrue(ex.getMessage().contains("missing required class"), "Error message should mention missing required class");
     }
 
     @Test
     public void testBackstepDefinitionValues() {
-        // Enchanting table requires experience and books as high as rarest other enchant in the game:
-        // expCost = 8 (matching Infinity, Silk Touch, Wind Burst)
-        // bookRequirement = 45 (matching Mending, 15 bookshelves)
         int expCost = 8;
         int bookReq = 45;
         Assertions.assertEquals(8, expCost);

@@ -153,7 +153,7 @@ public class GrimdepthConfig {
 		public double pushDistanceBlocks = 1.0;
 		public boolean scaleWithLevel = false;
 		public double pushDistancePerLevel = 0.5;
-		public int speedDurationTicks = 100;
+		public int speedDurationTicks = 60;
 		public int speedAmplifier = 0;
 		public boolean requireSafeFloor = true;
 		public double maxSafeDropDistance = 2.0;
@@ -165,12 +165,14 @@ public class GrimdepthConfig {
 			save();
 			return;
 		}
+
 		try (FileReader reader = new FileReader(file)) {
 			GrimdepthConfig loaded = GSON.fromJson(reader, GrimdepthConfig.class);
 			if (loaded == null) {
 				save();
 				return;
 			}
+
 			INSTANCE = loaded;
 			if (INSTANCE.general == null) INSTANCE.general = new GeneralConfig();
 			if (INSTANCE.armorPiercer == null) INSTANCE.armorPiercer = new ArmorPiercerConfig();
@@ -184,12 +186,15 @@ public class GrimdepthConfig {
 			if (INSTANCE.nightmareAwareness.level1Monsters == null) {
 				INSTANCE.nightmareAwareness.level1Monsters = new ArrayList<>(List.of("minecraft:zombie", "minecraft:skeleton", "minecraft:spider"));
 			}
+
 			if (INSTANCE.nightmareAwareness.level2Monsters == null) {
 				INSTANCE.nightmareAwareness.level2Monsters = new ArrayList<>(List.of("minecraft:creeper", "minecraft:husk"));
 			}
+
 			if (INSTANCE.nightmareAwareness.level3Monsters == null) {
 				INSTANCE.nightmareAwareness.level3Monsters = new ArrayList<>(List.of("minecraft:witch", "minecraft:cave_spider"));
 			}
+
 			if (INSTANCE.dungeonLoot == null) INSTANCE.dungeonLoot = new DungeonLootConfig();
 		} catch (Exception e) {
 			save();
@@ -200,12 +205,15 @@ public class GrimdepthConfig {
 		try {
 			File file = getConfigFile();
 			File parent = file.getParentFile();
+
 			if (parent != null && !parent.exists()) {
 				parent.mkdirs();
 			}
+
 			try (FileWriter writer = new FileWriter(file)) {
 				GSON.toJson(INSTANCE, writer);
 			}
+			
 		} catch (IOException ignored) {
 		}
 	}

@@ -94,14 +94,10 @@ public class LightmapRenderStateExtractorMixin {
 
 		// Maximum brightness cap (200% = 2.0F)
 		float maxCap = (float) config.maxBrightnessCap;
-
-		// Effective gamma with night vision boost: clamped to [0.0, 2.0] so it never goes negative or exceeds 200%
 		float effectiveGamma = Mth.clamp(rawGamma + nvBoost, 0.0F, maxCap);
-
 		float scale = (float) config.brightnessDarkeningScale;
 		float brightness = Math.max(0.0F, effectiveGamma - darkness) * scale;
 
-		// Hard clamp: brightness cannot be negative and cannot exceed 200% (2.0F)
 		renderState.brightness = Mth.clamp(brightness, 0.0F, maxCap);
 	}
 }

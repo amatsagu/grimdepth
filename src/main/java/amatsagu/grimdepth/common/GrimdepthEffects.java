@@ -29,6 +29,7 @@ public class GrimdepthEffects {
 			if (entity instanceof Player player && !player.isSpectator() && !player.isCreative()) {
 				NightmareAwarenessHelper.tickNightmareAwareness(level, player, amplifier);
 			}
+			
 			return true;
 		}
 	}

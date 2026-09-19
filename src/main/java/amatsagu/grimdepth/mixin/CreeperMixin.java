@@ -20,13 +20,16 @@ public abstract class CreeperMixin {
 		if (dir <= 0 || this.swell != 0) {
 			return;
 		}
+
 		Creeper self = (Creeper) (Object) this;
 		if (self.level().isClientSide()) {
 			return;
 		}
+
 		if (self.getY() >= GrimdepthConfig.INSTANCE.general.undergroundYLevel || self.level().canSeeSky(self.blockPosition())) {
 			return;
 		}
+		
 		int minFuse = GrimdepthConfig.INSTANCE.creepers.undergroundMinFuseTicks;
 		int maxFuse = GrimdepthConfig.INSTANCE.creepers.undergroundMaxFuseTicks;
 		this.maxSwell = (maxFuse > minFuse) ? minFuse + self.getRandom().nextInt(maxFuse - minFuse + 1) : minFuse;

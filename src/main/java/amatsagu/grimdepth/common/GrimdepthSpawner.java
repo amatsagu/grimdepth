@@ -43,6 +43,7 @@ public final class GrimdepthSpawner {
 		if (top <= bottom) {
 			return 0.0f;
 		}
+
 		return Mth.clamp((top - y) / (float) (top - bottom), 0.0f, 1.0f);
 	}
 
@@ -70,6 +71,7 @@ public final class GrimdepthSpawner {
 		if (!skeleton.getMainHandItem().is(Items.BOW)) {
 			skeleton.setItemSlot(EquipmentSlot.MAINHAND, new ItemStack(Items.BOW));
 		}
+
 		final ItemStack bow = skeleton.getMainHandItem();
 
 		boolean isDeepslate = pos.getY() <= GrimdepthConfig.INSTANCE.general.deepslateYLevel;
@@ -114,6 +116,7 @@ public final class GrimdepthSpawner {
 						checkArea,
 						other -> other.entityTags().contains("grimdepth:zombie_leader")
 				);
+
 				if (nearbyLeaders.size() < leaderCfg.maxNearbyLeaders) {
 					promoteToLeader(zombie, level, leaderCfg);
 					return;
@@ -179,6 +182,7 @@ public final class GrimdepthSpawner {
 		if (stepAttr != null) {
 			stepAttr.setBaseValue(cfg.stepHeight);
 		}
+
 		zombie.addEffect(new MobEffectInstance(MobEffects.JUMP_BOOST, -1, 0, false, false));
 
 		Item weaponItem = getItemById(cfg.weapon, Items.IRON_SWORD);
@@ -196,6 +200,7 @@ public final class GrimdepthSpawner {
 		} else {
 			armorPiercerHolder.ifPresent(h -> weaponStack.enchant(h, 1));
 		}
+
 		zombie.setItemSlot(EquipmentSlot.MAINHAND, weaponStack);
 
 		List<String> pool = new ArrayList<>(cfg.leaderArmorPool);
@@ -205,10 +210,12 @@ public final class GrimdepthSpawner {
 			if (equippedSlots.size() >= cfg.armorPiecesCount) {
 				break;
 			}
+
 			Item armorItem = getItemById(id, null);
 			if (armorItem == null) {
 				continue;
 			}
+
 			ItemStack armorStack = new ItemStack(armorItem);
 			Equippable equippable = armorStack.get(DataComponents.EQUIPPABLE);
 			if (equippable != null && equippedSlots.add(equippable.slot())) {
@@ -229,7 +236,6 @@ public final class GrimdepthSpawner {
 			scaleAttr.setBaseValue(GrimdepthConfig.INSTANCE.spiders.deepslateScale);
 		}
 
-		// When they die, trigger the Weaving status effect to spawn cobwebs around death point
 		spider.addEffect(new MobEffectInstance(MobEffects.WEAVING, -1, 0, false, false));
 		spider.addTag("grimdepth:deepslate_spider");
 	}
@@ -240,6 +246,7 @@ public final class GrimdepthSpawner {
 				return getItemById(id, null);
 			}
 		}
+		
 		return pool.isEmpty() ? null : getItemById(pool.getFirst(), null);
 	}
 

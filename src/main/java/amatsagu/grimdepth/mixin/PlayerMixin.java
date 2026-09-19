@@ -30,6 +30,7 @@ public abstract class PlayerMixin {
 			player.crit(target);
 			return;
 		}
+		
 		int count = Math.max(1, 1 + apLevel);
 		if (player.level().isClientSide()) {
 			for (int i = 0; i < count; i++) {
@@ -43,6 +44,7 @@ public abstract class PlayerMixin {
 			}
 			return;
 		}
+
 		if (player.level() instanceof ServerLevel serverLevel) {
 			serverLevel.sendParticles(
 					ParticleTypes.TRIAL_OMEN,
@@ -69,6 +71,7 @@ public abstract class PlayerMixin {
 		if (level == 0 && !player.getOffhandItem().isEmpty()) {
 			return GrimdepthEnchantments.getArmorPiercerLevel(player.getOffhandItem());
 		}
+
 		return level;
 	}
 
@@ -83,6 +86,7 @@ public abstract class PlayerMixin {
 		if (this.canCriticalAttack(target)) {
 			amount *= 1.5F;
 		}
+
 		return original.call(target, source, amount);
 	}
 }

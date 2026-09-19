@@ -31,6 +31,7 @@ public final class BackstepHelper {
 		if (shooter == null || weapon == null || weapon.isEmpty()) {
 			return;
 		}
+
 		if (shooter.isPassenger() || shooter.isFallFlying()) {
 			return;
 		}
@@ -40,7 +41,6 @@ public final class BackstepHelper {
 			return;
 		}
 
-		// Calculate horizontal opposite direction of aim
 		double lookX, lookZ;
 		if (target != null) {
 			lookX = target.getX() - shooter.getX();
@@ -50,6 +50,7 @@ public final class BackstepHelper {
 			lookX = look.x;
 			lookZ = look.z;
 		}
+
 		double horizDist = Math.sqrt(lookX * lookX + lookZ * lookZ);
 		if (horizDist < 1e-4) {
 			float yawRad = (float) Math.toRadians(shooter.getYRot());
@@ -57,6 +58,7 @@ public final class BackstepHelper {
 			lookZ = Math.cos(yawRad);
 			horizDist = Math.sqrt(lookX * lookX + lookZ * lookZ);
 		}
+
 		double dirX = -lookX / horizDist;
 		double dirZ = -lookZ / horizDist;
 
@@ -65,12 +67,10 @@ public final class BackstepHelper {
 			pushBlocks += (levelNum - 1) * cfg.pushDistancePerLevel;
 		}
 
-		// Check safe floor if enabled
 		if (cfg.requireSafeFloor && !isFloorSafe(level, shooter, dirX, dirZ, pushBlocks, cfg.maxSafeDropDistance)) {
 			return;
 		}
 
-		// Gentle smooth recoil impulse:
 		// Ground friction decelerates delta movement to ~2.2x the initial velocity.
 		double impulse = pushBlocks * 0.42;
 		double impulseY = shooter.onGround() ? 0.08 : 0.0;
@@ -80,7 +80,6 @@ public final class BackstepHelper {
 		shooter.needsSync = true;
 		level.getChunkSource().sendToTrackingPlayersAndSelf(shooter, new ClientboundSetEntityMotionPacket(shooter));
 
-		// Grant 5s of movement speed effect with barely visible (ambient) particles
 		shooter.addEffect(new MobEffectInstance(
 				MobEffects.SPEED,
 				cfg.speedDurationTicks,
@@ -90,7 +89,6 @@ public final class BackstepHelper {
 				true   // showIcon
 		));
 
-		// Small smoke poof near their feet
 		level.sendParticles(
 				ParticleTypes.POOF,
 				shooter.getX(),
@@ -100,6 +98,7 @@ public final class BackstepHelper {
 				0.2, 0.05, 0.2,
 				0.02
 		);
+
 		level.sendParticles(
 				ParticleTypes.SMOKE,
 				shooter.getX(),
@@ -116,7 +115,6 @@ public final class BackstepHelper {
 		double py = entity.getY();
 		double pz = entity.getZ();
 
-		// Sample halfway and at full distance
 		double[] samples = { distance * 0.5, distance };
 		for (double d : samples) {
 			double sx = px + dirX * d;
@@ -130,6 +128,7 @@ public final class BackstepHelper {
 			if (isHazard(level.getBlockState(samplePos), level.getFluidState(samplePos))) {
 				return false;
 			}
+
 			if (isHazard(level.getBlockState(samplePos.above()), level.getFluidState(samplePos.above()))) {
 				return false;
 			}
@@ -142,6 +141,7 @@ public final class BackstepHelper {
 				if (checkPos.getY() < level.getMinY()) {
 					return false;
 				}
+
 				BlockState state = level.getBlockState(checkPos);
 				FluidState fluid = level.getFluidState(checkPos);
 
@@ -167,12 +167,15 @@ public final class BackstepHelper {
 		if (fluid.is(FluidTags.LAVA)) {
 			return true;
 		}
+
 		if (state.is(Blocks.FIRE) || state.is(Blocks.SOUL_FIRE)) {
 			return true;
 		}
+
 		if (state.is(Blocks.MAGMA_BLOCK) || state.is(Blocks.CACTUS) || state.is(Blocks.SWEET_BERRY_BUSH) || state.is(Blocks.WITHER_ROSE)) {
 			return true;
 		}
+		
 		return state.getBlock() instanceof CampfireBlock;
 	}
 }

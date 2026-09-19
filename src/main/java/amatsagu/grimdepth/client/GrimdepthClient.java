@@ -26,7 +26,6 @@ public class GrimdepthClient implements ClientModInitializer {
 				client.options.save();
 			}
 
-			// Check whether player currently has Night Vision potion effect on world join for proper calculations
 			if (client.player != null) {
 				boolean hasNightVision = client.player.hasEffect(MobEffects.NIGHT_VISION);
 				int amplifier = hasNightVision ? client.player.getEffect(MobEffects.NIGHT_VISION).getAmplifier() : -1;

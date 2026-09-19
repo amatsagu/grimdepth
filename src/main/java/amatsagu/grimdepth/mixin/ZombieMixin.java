@@ -29,16 +29,20 @@ public abstract class ZombieMixin {
 		if (self.level().isClientSide() || !self.entityTags().contains("grimdepth:zombie_leader")) {
 			return;
 		}
+
 		if ((self.tickCount + self.getId()) % 12 != 0) {
 			return;
 		}
+
 		if (!(self.level() instanceof ServerLevel serverLevel)) {
 			return;
 		}
+
 		double radius = GrimdepthConfig.INSTANCE.zombies.leaders.particleProximityRadius;
 		if (!serverLevel.hasNearbyAlivePlayer(self.getX(), self.getY(), self.getZ(), radius)) {
 			return;
 		}
+		
 		serverLevel.sendParticles(
 				ParticleTypes.TRIAL_OMEN,
 				self.getRandomX(0.5),

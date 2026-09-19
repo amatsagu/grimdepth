@@ -57,9 +57,11 @@ public abstract class AbstractArrowMixin {
 		if (!self.level().isClientSide() || this.isInGround()) {
 			return;
 		}
+
 		if (!GrimdepthConfig.INSTANCE.armorPiercer.projectileTrailParticles) {
 			return;
 		}
+
 		if (!grimdepth$hasArmorPiercer(self)) {
 			return;
 		}
@@ -68,6 +70,7 @@ public abstract class AbstractArrowMixin {
 		if (delta.lengthSqr() <= 0.0025) {
 			return;
 		}
+		
 		self.level().addParticle(
 				ParticleTypes.TRIAL_OMEN,
 				self.getX() - delta.x * 0.25,

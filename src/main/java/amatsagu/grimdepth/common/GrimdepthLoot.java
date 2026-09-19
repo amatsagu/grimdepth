@@ -14,10 +14,6 @@ import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntPr
 
 import java.util.Set;
 
-/**
- * Handles rare dungeon loot injection for Armor Piercer and Backstep enchanted books
- * across mob spawner dungeons, trial chambers, underwater ruins/pyramids, desert pyramids, and jungle temples.
- */
 public class GrimdepthLoot {
     public static final Set<ResourceKey<LootTable>> TARGET_DUNGEONS = Set.of(
             // Mob spawner dungeon

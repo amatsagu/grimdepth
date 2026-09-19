@@ -66,28 +66,23 @@ public class NightmareAwarenessHelper {
 			return;
 		}
 
-		// Check if the block was placed by a player
 		String dimKey = getDimensionKey(level);
 		Set<Long> placed = PLACED_ORES.get(dimKey);
 		if (placed != null && placed.remove(pos.asLong())) {
 			return;
 		}
 
-		// Must be in deepslate level
 		if (pos.getY() > config.maxTriggerYLevel) {
 			return;
 		}
 
-		// Determine if high risk ore
 		Identifier blockId = BuiltInRegistries.BLOCK.getKey(state.getBlock());
 		boolean isHighRisk = state.is(GrimdepthTags.HIGH_RISK_ORES)
 				|| (blockId != null && config.highRiskOres.contains(blockId.toString()));
 
-		// Determine light level where player stands
 		int blockLight = level.getBrightness(LightLayer.BLOCK, player.blockPosition());
 		boolean isDark = blockLight <= config.darkLightLevelThreshold;
 
-		// Calculate chance
 		double chance = config.defaultOreChance;
 		if (isDark) {
 			chance = Math.max(chance, config.darkOreChance);
@@ -99,6 +94,7 @@ public class NightmareAwarenessHelper {
 		if (player.getRandom().nextDouble() >= chance) {
 			return;
 		}
+
 		applyNightmareAwareness(player);
 	}
 
@@ -110,6 +106,7 @@ public class NightmareAwarenessHelper {
 			newAmplifier = Math.min(config.maxLevel - 1, existing.getAmplifier() + 1);
 			player.removeEffect(GrimdepthEffects.NIGHTMARE_AWARENESS);
 		}
+
 		player.addEffect(new MobEffectInstance(
 				GrimdepthEffects.NIGHTMARE_AWARENESS,
 				config.durationTicks,
@@ -152,16 +149,20 @@ public class NightmareAwarenessHelper {
 		if (config.level1Monsters != null && !config.level1Monsters.isEmpty()) {
 			pool.addAll(config.level1Monsters);
 		}
+
 		int level = amplifier + 1;
 		if (level >= 2 && config.level2Monsters != null) {
 			pool.addAll(config.level2Monsters);
 		}
+
 		if (level >= 3 && config.level3Monsters != null) {
 			pool.addAll(config.level3Monsters);
 		}
+
 		if (pool.isEmpty()) {
 			pool.add("minecraft:zombie");
 		}
+
 		return pool;
 	}
 
@@ -182,6 +183,7 @@ public class NightmareAwarenessHelper {
 			if (identifier == null) {
 				continue;
 			}
+
 			EntityType<?> rawType = BuiltInRegistries.ENTITY_TYPE.getOptional(identifier).orElse(null);
 			if (rawType == null) {
 				continue;
@@ -275,6 +277,7 @@ public class NightmareAwarenessHelper {
 		if (!Files.exists(saveFile)) {
 			return;
 		}
+
 		try (BufferedReader reader = Files.newBufferedReader(saveFile)) {
 			Map<String, Set<Long>> loaded = GSON.fromJson(reader, MAP_TYPE);
 			if (loaded != null) {
@@ -295,6 +298,7 @@ public class NightmareAwarenessHelper {
 				Files.deleteIfExists(saveFile);
 				return;
 			}
+			
 			try (BufferedWriter writer = Files.newBufferedWriter(saveFile)) {
 				GSON.toJson(PLACED_ORES, writer);
 			}

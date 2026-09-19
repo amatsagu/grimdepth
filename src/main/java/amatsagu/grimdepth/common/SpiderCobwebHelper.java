@@ -43,6 +43,7 @@ public final class SpiderCobwebHelper {
 		if (level.isClientSide()) {
 			return;
 		}
+
 		String dimKey = getDimensionKey(level);
 		SPIDER_COBWEBS.computeIfAbsent(dimKey, k -> ConcurrentHashMap.newKeySet()).add(pos.asLong());
 	}
@@ -63,12 +64,15 @@ public final class SpiderCobwebHelper {
 		if (level.isClientSide() || !(level instanceof ServerLevel serverLevel)) {
 			return;
 		}
+
 		if (player == null || player.isSpectator()) {
 			return;
 		}
+
 		if (!state.is(Blocks.COBWEB)) {
 			return;
 		}
+
 		if (pos.getY() > GrimdepthConfig.INSTANCE.general.deepslateYLevel) {
 			return;
 		}
@@ -112,7 +116,6 @@ public final class SpiderCobwebHelper {
 			scaleAttr.setBaseValue(GrimdepthConfig.INSTANCE.spiders.deepslateScale);
 		}
 
-		// Weaving status effect so it also spawns cobwebs on death
 		spider.addEffect(new MobEffectInstance(MobEffects.WEAVING, -1, 0, false, false));
 		spider.addTag("grimdepth:deepslate_spider");
 
@@ -133,6 +136,7 @@ public final class SpiderCobwebHelper {
 				0.3,
 				0.05
 		);
+
 		level.playSound(
 				null,
 				spawnPos,
@@ -148,6 +152,7 @@ public final class SpiderCobwebHelper {
 		if (!Files.exists(file)) {
 			return;
 		}
+
 		try (BufferedReader reader = Files.newBufferedReader(file)) {
 			Map<String, Set<Long>> data = GSON.fromJson(reader, MAP_TYPE);
 			if (data != null) {
@@ -167,6 +172,7 @@ public final class SpiderCobwebHelper {
 			if (!Files.exists(dir)) {
 				Files.createDirectories(dir);
 			}
+			
 			try (BufferedWriter writer = Files.newBufferedWriter(file)) {
 				GSON.toJson(SPIDER_COBWEBS, writer);
 			}

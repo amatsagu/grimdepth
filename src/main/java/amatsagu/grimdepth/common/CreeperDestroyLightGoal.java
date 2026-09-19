@@ -24,15 +24,19 @@ public class CreeperDestroyLightGoal extends MoveToBlockGoal {
 		if (!GrimdepthConfig.INSTANCE.creepers.huntLightSources) {
 			return false;
 		}
+
 		if (this.creeper.getTarget() != null) {
 			return false;
 		}
+
 		if (this.creeper.getY() > GrimdepthConfig.INSTANCE.general.deepslateYLevel) {
 			return false;
 		}
+
 		if (this.creeper.level().canSeeSky(this.creeper.blockPosition())) {
 			return false;
 		}
+
 		return super.canUse();
 	}
 
@@ -41,6 +45,7 @@ public class CreeperDestroyLightGoal extends MoveToBlockGoal {
 		if (this.creeper.getTarget() != null) {
 			return false;
 		}
+
 		return super.canContinueToUse();
 	}
 
@@ -69,6 +74,7 @@ public class CreeperDestroyLightGoal extends MoveToBlockGoal {
 				this.blockPos.getX() + 0.5,
 				this.blockPos.getY() + 0.5,
 				this.blockPos.getZ() + 0.5);
+
 		if (isReachedTarget() || distSq <= 9.0) {
 			this.creeper.getNavigation().stop();
 			this.creeper.getLookControl().setLookAt(
@@ -76,6 +82,7 @@ public class CreeperDestroyLightGoal extends MoveToBlockGoal {
 					this.blockPos.getY() + 0.5,
 					this.blockPos.getZ() + 0.5
 			);
+
 			this.creeper.setSwellDir(1);
 		}
 	}
@@ -86,12 +93,15 @@ public class CreeperDestroyLightGoal extends MoveToBlockGoal {
 		if (state.isAir() || !state.is(GrimdepthTags.CREEPER_LIGHT_SOURCES)) {
 			return false;
 		}
+
 		if (state.getBlock() instanceof RedstoneLampBlock) {
 			return state.getValue(RedstoneLampBlock.LIT);
 		}
+
 		if (state.getBlock() instanceof CopperBulbBlock) {
 			return state.getValue(CopperBulbBlock.LIT);
 		}
+		
 		return true;
 	}
 }

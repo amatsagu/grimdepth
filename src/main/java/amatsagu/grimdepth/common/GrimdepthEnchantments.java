@@ -25,6 +25,7 @@ public final class GrimdepthEnchantments {
 		if (stack == null || stack.isEmpty()) {
 			return 0;
 		}
+
 		ItemEnchantments enchantments = stack.get(DataComponents.ENCHANTMENTS);
 		if (enchantments == null || enchantments.isEmpty()) {
 			enchantments = stack.get(DataComponents.STORED_ENCHANTMENTS);
@@ -32,11 +33,13 @@ public final class GrimdepthEnchantments {
 				return 0;
 			}
 		}
+
 		for (Holder<Enchantment> holder : enchantments.keySet()) {
 			if (holder.is(ARMOR_PIERCER)) {
 				return enchantments.getLevel(holder);
 			}
 		}
+
 		return 0;
 	}
 
@@ -48,6 +51,7 @@ public final class GrimdepthEnchantments {
 		if (stack == null || stack.isEmpty()) {
 			return 0;
 		}
+
 		ItemEnchantments enchantments = stack.get(DataComponents.ENCHANTMENTS);
 		if (enchantments == null || enchantments.isEmpty()) {
 			enchantments = stack.get(DataComponents.STORED_ENCHANTMENTS);
@@ -55,11 +59,13 @@ public final class GrimdepthEnchantments {
 				return 0;
 			}
 		}
+
 		for (Holder<Enchantment> holder : enchantments.keySet()) {
 			if (holder.is(BACKSTEP)) {
 				return enchantments.getLevel(holder);
 			}
 		}
+		
 		return 0;
 	}
 

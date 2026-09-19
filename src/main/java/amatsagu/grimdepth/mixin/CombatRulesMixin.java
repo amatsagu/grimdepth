@@ -21,14 +21,17 @@ public abstract class CombatRulesMixin {
 		if (armor <= 0.0f || damageSource == null) {
 			return armor;
 		}
+
 		ItemStack weapon = damageSource.getWeaponItem();
 		if (weapon == null || weapon.isEmpty()) {
 			return armor;
 		}
+
 		int level = GrimdepthEnchantments.getArmorPiercerLevel(weapon);
 		if (level <= 0) {
 			return armor;
 		}
+
 		List<Double> perLevel = GrimdepthConfig.INSTANCE.armorPiercer.armorPiercingPerLevel;
 		double reduction = 0.10 * level;
 		if (level <= perLevel.size()) {
@@ -36,6 +39,7 @@ public abstract class CombatRulesMixin {
 		} else if (!perLevel.isEmpty()) {
 			reduction = perLevel.getLast();
 		}
+		
 		return (float) Math.max(0.0, armor * (1.0 - reduction));
 	}
 }

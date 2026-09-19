@@ -24,15 +24,6 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * Optional integration for the Penchant mod (specifically targeting 0.5.5+mc26.3 or higher).
- * <p>
- * If Penchant is detected at 0.5.5+mc26.3 or higher:
- * - Backstep has instantly max level (like Infinity), no level progression.
- * - Armor Piercing levels up in the same way as Sharpness (+25% more progress required).
- * If a higher version of Penchant is detected and fails compatibility verification,
- * an {@link IncompatiblePenchantVersionException} is thrown.
- */
 public class PenchantCompat {
     public static final String PENCHANT_MOD_ID = "penchant";
     public static final String TARGET_PENCHANT_VERSION = "0.5.5+mc26.3";
@@ -48,6 +39,7 @@ public class PenchantCompat {
         if (initialized) {
             return;
         }
+
         initialized = true;
 
         Optional<ModContainer> penchantContainer = FabricLoader.getInstance().getModContainer(PENCHANT_MOD_ID);
@@ -93,10 +85,6 @@ public class PenchantCompat {
         ServerLifecycleEvents.SERVER_STARTED.register(PenchantCompat::onServerStarted);
     }
 
-    /**
-     * Verifies that the detected Penchant version contains all expected classes, methods, and fields.
-     * Throws {@link IncompatiblePenchantVersionException} if any check fails.
-     */
     public static void verifyCompatibility(Version version, boolean isHigherVersion) {
         Grimdepth.LOGGER.info("Verifying Penchant compatibility (detected: {}, target: {}, higher: {})...",
                 version.getFriendlyString(), TARGET_PENCHANT_VERSION, isHigherVersion);
@@ -181,23 +169,10 @@ public class PenchantCompat {
         if (!integrationActive) {
             return;
         }
+
         injectDefinitions(server.registryAccess(), "Server");
     }
 
-    /**
-     * Injects the calculated PenchantmentDefinition entries for Armor Piercer and Backstep into
-     * Penchant's runtime cache.
-     *
-     * Values:
-     * - Armor Piercer:
-     *   Enchanting table: requires rarest level (expCost=8, bookReq=45).
-     *   Usage progression (+25% progress): Cost(26, 14) -> L2=40 uses (32 * 1.25), L3=54 uses (43 * 1.25 ~ 53.75)
-     * - Backstep:
-     *   Instantly max level (like Infinity), no level progression.
-     *   Enchanting table: requires rarest level (expCost=8, bookReq=45).
-     *   Tagged in #penchant:enchantment/no_leveling and #penchant:enchantment/rare.
-     *   Cost factor: Cost(65, 0)
-     */
     public static void injectDefinitions(HolderLookup.Provider registryAccess, String contextLabel) {
         if (!integrationActive) {
             return;
