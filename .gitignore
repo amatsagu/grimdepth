@@ -39,3 +39,9 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+# submodules or local clones
+Penchant/
+
+# logs
+logs/

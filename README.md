@@ -71,6 +71,21 @@
     - High-risk ores (Deepslate Diamond & Emerald Ores): **75%** chance.
   * **Stacking & Timer Reset**: Each trigger sets or refreshes the remaining duration to **30 seconds** (600 ticks). Receiving the effect again while active refreshes duration and increments the effect level by 1 (capped at Level 10).
 
+- **Optional Penchant Mod Integration (0.5.5+mc26.3+)**:
+  * Optional, zero-dependency integration automatically detected when the [Penchant](https://github.com/ThePotatoArchivist/Penchant) mod is installed (`0.5.5+mc26.3` or higher).
+  * **Armor Piercer Usage Progression**:
+    - Levels up through item usage / durability damage in the same way as Sharpness, but requires **+25% more progress** to level up.
+    - Level 1 → 2: **40 durability uses** (Sharpness baseline 32 uses + 25%).
+    - Level 2 → 3: **54 durability uses** (Sharpness baseline 43 uses + 25%).
+    - Table experience cost: **1**, Book requirement: **0**.
+  * **Backstep Instantly Max Level**:
+    - Has instantly max level upon enchanting (matching Infinity behavior) with no level progression (`#penchant:enchantment/no_leveling`).
+    - Tagged as a rare enchantment (`#penchant:enchantment/rare`, matching Fortune rarity).
+  * **Version Guard & Compatibility Validation**:
+    - Ignores versions below `0.5.5+mc26.3`.
+    - For higher versions, rigorously reflects on and validates required Penchant classes, methods, constructors, and fields.
+    - Throws an explicit `IncompatiblePenchantVersionException` with a formatted error banner if any function or field is missing in newer Penchant releases.
+
 ---
 
 ## Configuration

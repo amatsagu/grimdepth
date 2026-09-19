@@ -15,6 +15,7 @@ public class Grimdepth implements ModInitializer {
 	public void onInitialize() {
 		GrimdepthConfig.load();
 		GrimdepthEffects.init();
+		amatsagu.grimdepth.compat.penchant.PenchantCompat.init();
 
 		PlayerBlockBreakEvents.AFTER.register((level, player, pos, state, blockEntity) -> {
 			NightmareAwarenessHelper.onBlockMined(level, player, pos, state);

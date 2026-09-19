@@ -9,6 +9,8 @@ import net.minecraft.world.effect.MobEffects;
 public class GrimdepthClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
+		amatsagu.grimdepth.compat.penchant.PenchantClientCompat.initClient();
+
 		ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
 			GrimdepthConfig.LightingConfig config = GrimdepthConfig.INSTANCE.lighting;
 			double currentGamma = client.options.gamma().get();
